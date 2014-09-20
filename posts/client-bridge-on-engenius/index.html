@@ -4,7 +4,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8"/>
-		<title>About me &raquo; saifulindo</title>
+		<title>Client Bridge on EnGenius &raquo; saifulindo</title>
 		<link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'/>
 		<link rel="stylesheet" type="text/css" href="/css/style.css" />
 		<link rel="stylesheet" type="text/css" href="/css/syntax.css" />
@@ -32,9 +32,8 @@
 			<h1><a href="/"><span id="nvie">saifulindo</span><span id="dot">.</span><span id="ext">blog</span></a></h1>
 			<ul>
                 <li id="home" ><a href="/">Home</a></li>
-                <li id="posts" ><a href="/posts/">Posts</a></li>
-                
-                <li id="about"  class='current'><span class="active" title="You're here.">About me</span></li>
+                <li id="posts" class='curent'><a href="/posts/">Posts</a></li>
+                <li id="about" ><a href="/about/">About me</a></li>
 			</ul>
         </div>
 		<div id="actionbox" style="display: none">
@@ -45,20 +44,36 @@
 
 		</div>
 		<div id="main">
-			<div id="item">
+			<div id="post">
 
-<h1>About me</h1>
+<h1>Client Bridge on EnGenius</h1>
+<p id="permalink" class="print-only">http://saifulindo.github.io/post/client-bridge-on-engenius/</p>
+<p class="no-print created_at dateline">Published: <span class="reldate">Sept 20, 2014</span></p><p class="print-only created_at dateline">Published: <span>Sept 20, 2014</span></p>
 
-<p>Blog ini ditulis oleh M. Saiful Mukharom, biasa dipanggil Saiful, lebih suka dengan nama Muhammad Syaiful. 
-	Sedangkan nama kun-yah Abu Assyajaroh Muhammad Syaiful bin Saelan bin Todinomo bin Tjokrodikromo Al-Fatiy.</p>
-<p><img src="/img/saifulindo.png" class="center thin-bordered" alt=""/></p>
-<p>Pernah menjadi teknisi di Asnet Multimeda sekitar tiga sampai empat tahun, kemudian menjadi pengajar bidang teknologi informasi sejak agustus 2013 sampai sekarang.</p>
-<h2>Akademi</h2>
-<p>Sedang menempuh S1 di Universitas Nusantara PGRI Kediri, Program Studi Teknik Informatika. Pengalaman selama menjadi mahasiswa pernah menjadi anggota HIMADITI, LPM Muara, BEM FT, UKM PPN dan Mendirikan <a href="http://cah.unpkediri.ac.id">Komunitas CAH UNP</a>.</p>
-<h2>Minat</h2>
-<p>Computer Science, Mathematics, Networking, Automotif, and Electronics.</p>
-<h2>Contact</h2>
-<p>Twitter <a href="http://twitter.com/saifulindo">@saifulindo</a>, bisa juga melalui e-mail di ritnesaif@gmail.com, untuk murid saya melalui e-mail di saifulindo@guruku.my.id.</p>
+<p>Sebenarnya Client bridge ini bukan pokok pembahasan akan tetapi bagian dari sebuah Materi Pelajaran “Men-Diagnosis Permasalahan Perangkat yang Tersambung Jaringan Berbasis Luas” dengan Kode Modul NTW.MNT.201.(2).A  yang penulis ajarkan di kelas Teknik Komputer dan Jaringan, yang dibagi menjadi tiga kompetensi dasar (1) Mengidentifikasi masalah fungsionalitas jaringan pada perangkat melalui gejala yang muncul, (2) Memilih masalah berdasarkan kelompoknya, (3) Menganalisa DHCP Client. Jadi topologi yang dirumuskan harus dapat mewakili kompetensi dasar tersebut.</p>
+<p>Client Bridge digunakan untuk menghubungkan dua jaringan kabel menggunkan dua router nirekabel tanpa membuat jembatan, sedangkan EnGenius merupakan perangkat access point yang digunakan untuk melakaukan client bridge. Untuk melakukan client bridge tidak harus menggunkan EnGenius, bisa menggunkan merek lain seperti Cisco, Tp-link dan lainnya yang mendukung client bridge.</p>
+<p>Kegunaan Client bridge akan menjadi jelas dengan melihat topologi berikut :</p>
+<p><img src="/img/2014/client-bridge.png" class="right" alt="Client Bridge[1]"/></p>
+<p>Beberapa tahapan untuk melakukan client bridge :</p>
+<ul>
+  <li>Merumuskan topologi jaringan</li>
+  <li>Konfigurasi EnGenius NH200</li>
+  <li>Konfigurasi Router Server</li>
+  <li>Konfigurasi WirelessLAN D-Link</li>
+  <li>Uji Koneksi</li>
+  <li>Konfigurasi Wifi Client</li>
+</ul><p>Yang perlu diperhatikan dalam melakukan beberapa tahapan tersebut adalah (1) ketika merumuskan topologi jaringan dalam melakukan konfigurasi IP Address menyesuaikan penggunaan IP Address di lokasi praktik, (2) Pada router server apabila menambahkan LAN Card yang berganti-ganti gunakan perintah :</p>
+<pre><code class="language-console"><span class="gp">#</span> ifconfig ethn up 
+<span class="go">n diisi 1 sampai tidak ditentukan</span></code></pre>
+<p>Pastikan tidak ada pesan kesalahan, (3) WirelessLAN bisa digantikan menjadi perangkat lain seperti Switch, (4) Pastikan Client dapat melakukan ping ke google dan AP Kantor :</p>
+<pre><code class="language-console"><span class="gp">#</span>ping google.com 
+<span class="gp">#</span>ping 192.168.100.1</code></pre>
+<p>IP Address Client dapat di setting secara automaticaly apabila WirelessLAN DHCP-nya di enable, atau router server mengaktifkan DHCP Server kemudian WirelessLAN di konfigurasi sebagai bridge.</p>
+<p style="text-align:center;"><a href="/files/client-bridge-on-engenius-nh200.pdf"><img src="/img/pdf.png" alt=""></a><br><a href="/files/client-bridge-on-engenius-nh200.pdf">client-bridge-on-engenius-nh200.pdf</a></p>
+<h3>Bibliography</h3>
+<p>[1]http://www.engeniustech.com.sg/files/Learn_How_to_Configure_EnGenius_WiFi_Products.pdf</p>
+<p>Jika kalian ingin bertanya, saya <a
+    href="http://twitter.com/saifulindo">@saifulindo</a> ada di Twitter.</p>
 </div>
 
 		</div>
