@@ -49,10 +49,65 @@
 
 <h1>Membangun VoIP Server</h1>
 <p id="permalink" class="print-only">http://saifulindo.github.io/tugas/membangun-voip-server/</p>
-<p class="no-print created_at dateline">Published: <span class="reldate">Oct 22, 2014</span></p><p class="print-only created_at dateline">Published: <span>Oct 22, 2014</span></p>
+<p class="no-print created_at dateline">Updated: <span class="reldate">Oct 28, 2014</span></p><p class="print-only created_at dateline">Published: <span>Oct 28, 2014</span></p>
 
 <h3>Overview</h3>
 <p>Postingan materi ini akan terus di-<i>update</i> sesuai kecapaian proses belajar – mengajar dikelas, jadi setiap kali waktu penting untuk meng-<i>update</i> perubahannya, saya harap kalian menjadi siswa yang mencari tahu bukan diberitahu, ini harapan kita semua dan harapan orang tua.</p>
+<h3>Pendahuluan</h3>
+<p>Sebelum melakukan implemntasi dan memperdalam <i>VoIP</i> baca <a href="/tugas/komunikasi-data/">Komunikasi Data</a>, VoIP (<i>Voice over Internet Protocol</i>), dikenal juga dengan sebutan <i>IP Telephony</i>. <i>VoIP</i> didefinisikan sebagai suatu sistem yang menggunkan Jaringan <i>Internet</i> untuk mengirimkan data paket suara dari suatu tempat ke tempat yang lain menggunakan perantara protokol <i>IP</i>. Sehingga perbedaan <i>VoIP</i> dan dengan telepon tradisional adalah masalah infrastrukturnya, jika <i>VoIP</i> menggunakan <i>internet</i> sedangkan telepon tradisional menggunkan infrastruktur telepon yang sudah dibangun lebih awal.</p>
+
+<p>Layanan teknologi VoIP diharapkan sama dengan teknologi sebelumnya, yaitu :</p>
+<ul>
+	<li>Layanan komunikasi Voice dengan normal</li>
+	<li>Layanan voice mail yang dapat ditinggalkan pada nomor yang dihubungi</li>
+	<li>Layanan pengiriman transmisi fax dengan biaya yang terjangkau.</li>
+</ul>
+
+<h3>Manfaat VoIP</h3>
+<p>Manfaat berkomunikasi dengan <i>voice</i> dengan menggunkan jaringan data antara lain efisiensi aplikasi bandwith, keamanan untuk mnggunakan metode kompresi suara, menekan biaya penggunaan, kemampuan menggunakan <i>singgle interface</i>, meningkatkan keandalan (<i>realiability</i>) jaringan komputer, termasuk menekan biaya operasional komunikasi hingga mendekati gratis.</p>
+
+<h3>Unsur Pembentuk VoIP</h3>
+<p>Ada empat unsur pembentuk VoIP yaitu: User Agent, Proxy, Protocol, dan CODEC (Coder-Decoder). Dari unsur tersebut jaringan VoIP terbentuk.</p>
+
+<ol type="a">
+	<li>User Agent</li>
+	<p>User agent ada yang berupa <i>Software</i>, ada pula yang berupa Hardware. <i>User Agent</i> seperti layaknya <i>telephone</i> yang kita kenal yang berfungsi sebagai pemanggilan dan menerima telepon, baik brasal dari sambungan komputer dengan komputer, Komputer dengan <i>IP Phone</i>, Komputer dengan PSTN(perlu ditambah alat ATA).</p>
+	<ol type="-">
+		<li>Jenis <i>Softphone SIP</i>, misalnya <i>SJPhone</i> dan <i>X-Lite</i></li>
+		<li>Jenis <i>Softphone IAX</i>, misalnya <i>Idesfisk</i> dan <i>Iaxlite</i></li>
+		<li>Jenis <i>Softphone H.323</i>, misalnya <i>NetMeeting</i></li>
+		<li>Jenis <i>Hardphone</i>, <i>IP Phone, USB Phone, ITG(Internet Telephony Gateway), ATA (Analog Telepone Adapter)</i>> Catatan : Bahwa menurut pasal 60 dari KepMEN Nomor 21 tahun 2001 tentang “ penyelenggaraan Jasa telekomunikasi, dilarang mengkoneksikan pernagkat ITG dan ATA langsung ke jaringan Telkom.”, menurut Onno boleh mengkoneksikan langsung ke <i>PABX (Private Automatic Branch eXchange)</i>.</li>
+	</ol>
+	<li>Proxy</li>
+	<p>Karena <i>VoIP</i> dijalankan di <i>internet</i> maka perlu dibentuk jembatan penghubung (<i>proxy</i> Khusus untuk <i>VoIP</i>), untuk mengoperasikan <i>proxy</i> dibutuhkan <i>softswitch</i>, versi <i>softswitch opensource</i> dan cukup terkenal dan telah diuji keandalannya adalah <a href="http://asterisk.org">Asterisk</a>, ada juga yang lain sperti: <a href="http://openser.org">OpenSER,</a> <a href="http://iptel.org/net">SER</a>, <a href="http://yate.null.ro">Yate</a>.<br>Untuk <i>softswitch</i> yang berbayar dapat diperoleh di <a href="http://nch.com.au/pbx">website Axon</a> atau <a href="http://brekeke.com">OnDo SIP Server</a>.</p>
+	<li>Protocol</li>
+	<p>Protocol adalah sebuah aturan atau rule yang harus dipenuhi agar akses komunikasi dalam hal ini komunikasi VoIP dapat melwati jaringan internet. VoIP mengenal tiga macam Protocol yaitu :</p>
+	<ol type="-">
+		<li><b>H.323</b> , yang merupakan protokol yang dikembangkan oleh <i>ITU-T (International Telecommunications Union-Telecommunication)</i> <i>VoIP</i> dapat berkomunikasi dengan sistem lain yang beroperasi pada jaringan <i>packet-switch</i>. Standar <i>H.323</i> terdiri dari komponen, protokol, dan prosedur yang menyediakan komunikasi multimedia melalui jaringan <i>packet based</i>. <i>Packet-based</i> dapat dilalui oleh <i>internet</i>, <i>IPX-Based, LAN, WAN</i>. Layanan <i>H.323</i> berupa Komunikasi suara, video dan gabungan suara, video dan data.</li>
+		<li><i>SIP</i> (<i>Session Initiation Protocol</i>), <i>SIP</i> adalah <i>Internet telephony</i> masa depan. Dalam <i>internet telephony</i> tujuan tidak lagi harus di identifikasikan dengan nomor <i>telephone</i>, sperti +62 21 123 4567, tapi di identifikasikan dengan <i>URL</i>. Contoh bentuk identifikasi <i>Internet telephony</i>: sip:+001-234-567 <code>8967@sipgate.jakarta.com;</code> anda akan terhubung langsung dngan rekan anda di Amerika serikat yang menggunkan telephone biasa.</li>
+		<li><i>IAX</i> (<i>The Inter-Asterisk eXchange</i>) yang merupakan protocol dari <i>Asterisk.</i></li>
+	</ol>
+	<li>Codec</li>
+	<p>Pada dasarnya pengkodean suara merupakan pengalihan <i>code analog</i> menjadi <i>code digital</i> agar suara dapat dikirim dalam jaringan komputer, yang dikenal dengan istilah <i>codec</i>.  Berbagai jenis dikembangkan untuk mengompresikan suara agar dapat menggunakan <i>bandwith</i> secara hemat tanpa mengorbankan kualitas suara. 
+	Daftar <i>codec</i> yang banyak digunakan :</p>
+	<ol>
+		<li><b>GSM</b><pre>      : </pre>13Kbps (full rate), 20ms frame size</li>
+		<li><b>iLBC</b><pre>     : </pre>14 Kbps, 20ms frame size, 13,3Kbps, 30ms frame size</li>
+		<li><b>ITU G.729</b><pre>: </pre>8Kbps, 10ms frame size versi proprietary []</li>
+	</ol>
+
+</ol>
+
+<h3>Merumuskan Jaringan</h3>
+<p>Jaringan yang dirumuskan tidak jauh berbeda dengan <a href="/posts/client-bridge-on-engenius/"><i>client bridge on enGenius</i></a>, tentu berbeda dari segi <i>software</i> yang di instalasi maupun di konfigurasi. <i>Topologi</i> yagn dirumuskan ini sebagai simulasi implementasi <i>VoIP server</i> dalam satu jaringan <i>LAN</i>, topologi ini bisa di kembangkan sesuai kebutuhan, dengan menambah infrastruktur <i>topologi</i> ini bisa dikembangkan menjadi <i>RT/RW net</i>, <i>MAN</i>, dan bahkan <i>WAN</i>.</p>
+<p style="text-align:center;"><img src="/img/2014/10/voip-server.jpg" alt="Front Panel"></p>
+<h3>Implementasi Jaringan <i>VoIP</i></h3>
+<p>Kebutuhan <i>Hardware</i>, secara umum kebutuhan <i>hardware</i> dapat merujuk pada <i>topologi</i> jaringan yang dibangun, perlu ada penambahan headset pada masing – masing <i>user agent</i>.</p>
+<p>Kebutuhan <i>Software</i>, <b>Server-Side</b>, <b>Sistem Operasi</b> : <i>Linux Debian 7 wheezy</i>, <b>Softswitch</b> : <i>Asterisk</i>, dan <i>codec</i>-nya: <i>GSM</i>. <i>Client-Side</i>, <b>Sistem Operasi</b> : <i>Windows</i>, <b>Softphone</b>: <i>idefisk</i> ataupun <i>X-Lite</i>.</p>
+<p>Panduan Instalasi dan Konfigurasi <i>VoIP Server</i>,</p>
+<p>Tunggu Masih Dalam Proses</p>
+<h3>Sumber :</h3>
+<p><b>Winarno, Sugeng</b>. 2008, <i>Membangun Telephone berbasis VoIP</i>, Penerbit INFORMATIKA:Bandung.</p>
 
 <p>Jika kalian ingin bertanya, saya <a
     href="http://twitter.com/saifulindo">@saifulindo</a> ada di Twitter.</p>
