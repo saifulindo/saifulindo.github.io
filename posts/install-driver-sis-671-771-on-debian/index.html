@@ -54,29 +54,30 @@
 <p>Sebelum anda melakukan pemasangan <i>driver</i>, hal-hal yang perlu diperhatikan yaitu (1) pastikan anda menggunkan <i>Video Adapter SiS 672/771</i>, (2) Sistem operasi <b>debian wheezy</b> (direkomendasikan) dan turunannya seperti ubuntu, mint dan lainnya(3) Bagi pengguna <i>Ubuntu</i>, saya tidak menjamin ini berjalan, akan tetapi saya sarankan untuk memperhatikan <i>dependencies</i> yang disesuaikan dengan ubuntu, kenapa saya mengatakan ini karena belum saya testing untuk sistem operasi ubuntu.</p>
 <p>Untuk memasang <i>driver</i>-nya seperti berikut:</p>
 
-<h4>Download package</i> dan <i>dependencies</i> seperti:<h4>
-		<pre><code class="language-console"> <span class="gp">$</span> wget http://flerp.hu/debian/sis671-jessie/libaudit0dc_1.7.18-1.2dc_i386.deb
-		<span class="gp">$</span> wget http://flerp.hu/debian/sis671-jessie/sisctrl_0.0.20051202_i386.deb
-		<span class="gp">$</span> wget http://flerp.hu/debian/sis671-jessie/xserver-xorg-core_1.16.4-2dc_i386.deb
-		<span class="gp">$</span> wget http://flerp.hu/debian/sis671-jessie/xserver-xorg-input-evdev_2.9.0-3dc_i386.deb
-		<span class="gp">$</span> wget http://flerp.hu/debian/sis671-jessie/xserver-xorg-input-mouse_1.9.1-2dc_i386.deb
-		<span class="gp">$</span> wget http://flerp.hu/debian/sis671-jessie/xserver-xorg-input-synaptics_1.8.1-2dc_i386.deb'
-		<span class="gp">$</span> wget http://flerp.hu/debian/sis671-jessie/xserver-xorg-video-sisimedia_0.8.0dc_i386.deb
-		<span class="gp">$</span> wget http://flerp.hu/debian/sis671-jessie/xserver-xorg_7.7+8dc_i386.deb
-		</code></pre>
-		Jika alamat <i>url</i><code>http://flerp.hu/debian/sis671-jessie/</code> tidak ditemukan, akses alamat <code>http://saifulindo.github.io/files/sis-671-jesiie/</code> yang telah saya <i>backup</i>.
-<h4><i>Install package</i> dan <i>dependecies</i>-nya:<h4>
-		<pre><code class="language-console">
-		<span class="gp">$</span> dpkg -i libaudit0dc_1.7.18-1.2dc_i386.deb sisctrl_0.0.20051202_i386.deb xserver-xorg_7.7+8dc_i386.deb xserver-xorg-core_1.16.4-2dc_i386.deb xserver-xorg-input-evdev_2.9.0-3dc_i386.deb xserver-xorg-input-mouse_1.9.1-2dc_i386.deb xserver-xorg-input-synaptics_1.8.1-2dc_i386.deb xserver-xorg-video-sisimedia_0.8.0dc_i386.deb
-		</code></pre>
-<h4>Setelah terpasang, lakukan <i>hold package</i>:<h4>
-		<pre><code class="language-console">
-		<span class="gp">$</span> echo xserver-xorg hold | dpkg --set-selections
-		<span class="gp">$</span> echo xserver-xorg-core hold | dpkg --set-selections
-		<span class="gp">$</span> echo xserver-xorg-input-evdev hold | dpkg --set-selections
-		<span class="gp">$</span> echo xserver-xorg-input-mouse hold | dpkg --set-selections
-		<span class="gp">$</span> echo xserver-xorg-input-synaptics hold | dpkg --set-selections
-		</code></pre>
+<h4>1. Download package</i> dan <i>dependencies</i> seperti:<h4>
+<pre><code class="language-console"> <span class="gp">$</span> wget http://flerp.hu/debian/sis671-jessie/libaudit0dc_1.7.18-1.2dc_i386.deb
+<span class="gp">$</span> wget http://flerp.hu/debian/sis671-jessie/sisctrl_0.0.20051202_i386.deb
+<span class="gp">$</span> wget http://flerp.hu/debian/sis671-jessie/xserver-xorg-core_1.16.4-2dc_i386.deb
+<span class="gp">$</span> wget http://flerp.hu/debian/sis671-jessie/xserver-xorg-input-evdev_2.9.0-3dc_i386.deb
+<span class="gp">$</span> wget http://flerp.hu/debian/sis671-jessie/xserver-xorg-input-mouse_1.9.1-2dc_i386.deb
+<span class="gp">$</span> wget http://flerp.hu/debian/sis671-jessie/xserver-xorg-input-synaptics_1.8.1-2dc_i386.deb'
+<span class="gp">$</span> wget http://flerp.hu/debian/sis671-jessie/xserver-xorg-video-sisimedia_0.8.0dc_i386.deb
+<span class="gp">$</span> wget http://flerp.hu/debian/sis671-jessie/xserver-xorg_7.7+8dc_i386.deb
+</code></pre>
+<p>Jika alamat <i>url</i><code>http://flerp.hu/debian/sis671-jessie/</code> tidak ditemukan, akses alamat <code>http://saifulindo.github.io/files/sis-671-jesiie/</code> yang telah saya <i>backup</i>.</p>
+<h4>2. <i>Install package</i> dan <i>dependecies</i>-nya:<h4>
+<pre><code class="language-console"> <span class="gp">$</span> dpkg -i libaudit0dc_1.7.18-1.2dc_i386.deb sisctrl_0.0.20051202_i386.deb \
+xserver-xorg_7.7+8dc_i386.deb xserver-xorg-core_1.16.4-2dc_i386.deb \
+xserver-xorg-input-evdev_2.9.0-3dc_i386.deb xserver-xorg-input-mouse_1.9.1-2dc_i386.deb \
+xserver-xorg-input-synaptics_1.8.1-2dc_i386.deb xserver-xorg-video-sisimedia_0.8.0dc_i386.deb
+</code></pre>
+<h4>3. Setelah terpasang, lakukan <i>hold package</i>:<h4>
+<pre><code class="language-console"><span class="gp">$</span> echo xserver-xorg hold | dpkg --set-selections
+<span class="gp">$</span> echo xserver-xorg-core hold | dpkg --set-selections
+<span class="gp">$</span> echo xserver-xorg-input-evdev hold | dpkg --set-selections
+<span class="gp">$</span> echo xserver-xorg-input-mouse hold | dpkg --set-selections
+<span class="gp">$</span> echo xserver-xorg-input-synaptics hold | dpkg --set-selections
+</code></pre>
 <h3>Summary</h3>
 <p></p>
 <h3>Source</h3>
