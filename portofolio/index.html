@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio Digital - M. Saiful Mukharom, S.Kom.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6B91C1; /* Muted Blue */
+            --primary-hover: #597aa2; /* Darker Muted Blue */
+            --dark-color: #3a3f44; /* Darker Gray for better contrast */
+            --background-color: #F5F2E8; /* Lightest Cream */
+            --secondary-bg: #DED8C0; /* Beige/Khaki */
+            --secondary-text: #6c757d;
+            --border-color: #ccc6b4;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+            background-color: var(--background-color);
+            color: var(--dark-color);
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Lora', serif;
+            font-weight: 700;
+        }
+        .section-title {
+            color: var(--dark-color);
+            font-size: 2.25rem;
+        }
+        .btn {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            border-radius: 0.25rem;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+        .tab-btn {
+            border-color: transparent;
+            color: var(--secondary-text);
+            padding: 0.75rem 0.25rem;
+            margin-right: 1.5rem;
+            font-weight: 600;
+        }
+        .tab-active {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        #add-karya-modal .modal-content {
+            transition: transform 0.3s ease-out;
+            transform: scale(0.95);
+        }
+        #add-karya-modal:not(.hidden) .modal-content {
+             transform: scale(1);
+        }
+        .fab {
+            position: fixed;
+            width: 3.5rem;
+            height: 3.5rem;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            border-radius: 9999px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 30;
+            box-shadow: 0 4px 10px rgba(0,0,0,.15);
+        }
+        .item-summary {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+        }
+        .item-summary:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Header & Navigasi -->
+    <header class="bg-white sticky top-0 z-40 border-b" style="border-color: #e5e7eb;">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold font-serif" style="color: var(--dark-color)">
+                <a href="#">SAIFULINDO</a>
+            </div>
+            <div class="hidden md:flex space-x-8 font-semibold">
+                <a href="#profil" class="text-gray-600 hover:text-[var(--primary-color)]">Profil</a>
+                <a href="#portofolio" class="text-gray-600 hover:text-[var(--primary-color)]">Portofolio</a>
+                <a href="#implementasi" class="text-gray-600 hover:text-[var(--primary-color)]">Implementasi</a>
+            </div>
+            <div class="md:hidden">
+                <select onchange="window.location.href=this.value" class="bg-gray-100 border border-gray-300 rounded-md p-2">
+                    <option value="#profil">Profil</option>
+                    <option value="#portofolio">Portofolio</option>
+                    <option value="#implementasi">Implementasi</option>
+                </select>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-6 md:p-8 max-w-4xl">
+        <!-- 1. Bagian Profil Guru -->
+        <section id="profil" class="mb-16 pt-8 pb-8 text-center animate-on-scroll">
+            <img src="pas-photo.jpg" alt="Foto Profil M. Saiful Mukharom" class="w-36 h-36 rounded-full mx-auto mb-6 object-cover">
+            <h1 class="text-4xl md:text-5xl font-bold text-[var(--dark-color)]">M. Saiful Mukharom, S.Kom.</h1>
+            <p class="text-lg text-[var(--secondary-text)] mt-3 mb-6">Seorang pendidik yang bersemangat dalam inovasi pembelajaran dan pengembangan profesional berkelanjutan.</p>
+            <div class="mt-6 flex justify-center space-x-6">
+                <a href="#" class="text-[var(--secondary-text)] hover:text-[var(--primary-color)]" title="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>
+                <a href="#" class="text-[var(--secondary-text)] hover:text-[var(--primary-color)]" title="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
+            </div>
+        </section>
+
+        <!-- 2. Bagian Portofolio Guru -->
+        <section id="portofolio" class="mb-16">
+            <h2 class="section-title text-center mb-10 animate-on-scroll">Portofolio Guru</h2>
+            <div class="animate-on-scroll">
+                <div class="border-b border-gray-200">
+                    <nav id="portfolio-tabs" class="flex" aria-label="Tabs">
+                        <button onclick="changeTab('pengembangan')" class="tab-btn tab-active border-b-2">Pengembangan Diri</button>
+                        <button onclick="changeTab('pendampingan')" class="tab-btn border-b-2">Pendampingan</button>
+                        <button onclick="changeTab('organisasi')" class="tab-btn border-b-2">Organisasi</button>
+                        <button onclick="changeTab('karya')" class="tab-btn border-b-2">Karya & Inovasi</button>
+                        <button onclick="changeTab('prestasi')" class="tab-btn border-b-2">Prestasi</button>
+                    </nav>
+                </div>
+                <div class="py-6">
+                    <div id="pengembangan-content" class="tab-content"><h3 class="text-xl font-semibold mb-4 text-[var(--dark-color)]">Kegiatan Pengembangan Diri (3 Tahun Terakhir)</h3><ul class="list-disc list-inside space-y-2 text-[var(--secondary-text)]"><li>Pelatihan Kurikulum Merdeka - Kementerian Pendidikan (2025)</li><li>Workshop Pemanfaatan AI untuk Pembelajaran - MGMP Kota Kediri (2024)</li></ul></div>
+                    <div id="pendampingan-content" class="tab-content hidden"><h3 class="text-xl font-semibold mb-4 text-[var(--dark-color)]">Pendampingan Teman Sejawat (3 Tahun Terakhir)</h3><ul class="list-disc list-inside space-y-2 text-[var(--secondary-text)]"><li>Menjadi mentor implementasi Platform Merdeka Mengajar (2025)</li><li>Pendampingan pembuatan media ajar interaktif (2024)</li></ul></div>
+                    <div id="organisasi-content" class="tab-content hidden"><h3 class="text-xl font-semibold mb-4 text-[var(--dark-color)]">Pengalaman Organisasi Profesi</h3><ul class="list-disc list-inside space-y-2 text-[var(--secondary-text)]"><li>Sekretaris MGMP Bahasa Indonesia Kota Kediri (2023 - Sekarang)</li><li>Anggota Persatuan Guru Republik Indonesia (PGRI)</li></ul></div>
+                    <div id="karya-content" class="tab-content hidden"><h3 class="text-xl font-semibold mb-4 text-[var(--dark-color)]">Karya Tulis & Inovasi</h3><div class="space-y-4"><div class="p-4 rounded-md border bg-white"><h4 class="font-semibold text-[var(--dark-color)]">Buku "Strategi Jitu Menulis Esai" (2025)</h4><p class="text-sm text-[var(--secondary-text)]">Buku panduan praktis untuk siswa SMA.</p><a href="#" class="text-[var(--primary-color)] hover:underline text-sm font-semibold">Lihat Naskah (PDF)</a></div></div></div>
+                    <div id="prestasi-content" class="tab-content hidden"><h3 class="text-xl font-semibold mb-4 text-[var(--dark-color)]">Prestasi & Penghargaan</h3><ul class="list-disc list-inside space-y-2 text-[var(--secondary-text)]"><li>Juara 1 Lomba Guru Berprestasi Tingkat Kota (2024)</li><li>Penerima Satyalancana Karya Satya X Tahun (2023)</li></ul></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Bagian Bukti Implementasi -->
+        <section id="implementasi" class="mb-12">
+            <div class="text-center mb-10">
+                 <h2 class="section-title text-center mb-4 animate-on-scroll">Bukti Implementasi Karya Inovasi</h2>
+            </div>
+            <div id="galeri-karya">
+                <div class="item-summary animate-on-scroll"><h3 class="text-2xl mb-2"><a href="#" class="hover:text-[var(--primary-color)]">Metode Pembelajaran Interaktif</a></h3><p class="text-[var(--secondary-text)] mb-4">Siswa berdiskusi aktif menggunakan media papan tulis digital. Terjadi peningkatan keaktifan sebesar 30%.</p><img src="https://placehold.co/800x450/6B91C1/FFFFFF?text=Implementasi" alt="Metode Pembelajaran Interaktif" class="w-full h-auto object-cover rounded"></div>
+                <div class="item-summary animate-on-scroll"><h3 class="text-2xl mb-2"><a href="#" class="hover:text-[var(--primary-color)]">Proyek Karya Tulis Ilmiah</a></h3><p class="text-[var(--secondary-text)] mb-4">Siswa mempresentasikan hasil karya tulis ilmiah remaja di depan kelas sebagai bagian dari penilaian akhir.</p><img src="https://placehold.co/800x450/DED8C0/FFFFFF?text=Implementasi" alt="Proyek Karya Tulis Ilmiah" class="w-full h-auto object-cover rounded"></div>
+                <div class="item-summary animate-on-scroll"><h3 class="text-2xl mb-2"><a href="#" class="hover:text-[var(--primary-color)]">Pemanfaatan Lingkungan Sekolah</a></h3><p class="text-[var(--secondary-text)] mb-4">Belajar di luar kelas untuk mengobservasi objek secara langsung, meningkatkan pemahaman kontekstual.</p><img src="https://placehold.co/800x450/AEC5E0/3a3f44?text=Implementasi" alt="Pemanfaatan Lingkungan Sekolah" class="w-full h-auto object-cover rounded"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Tombol Aksi Mengambang -->
+    <button id="open-modal-btn" title="Tambahkan Karya Baru" class="btn fab animate-on-scroll">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+        </svg>
+    </button>
+
+    <footer class="text-center p-8 mt-8 bg-white border-t" style="border-color: #e5e7eb;">
+        <p class="text-[var(--secondary-text)]">&copy; 2025 - Portofolio Digital M. Saiful Mukharom, S.Kom.</p>
+    </footer>
+
+    <!-- Modal Form Tambah Karya -->
+    <div id="add-karya-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg p-6 max-w-lg w-full relative border modal-content">
+            <button id="close-modal-btn" class="absolute top-2 right-4 text-gray-500 hover:text-gray-800 text-3xl font-bold">&times;</button>
+            <h3 class="text-xl font-semibold mb-4">Tambahkan Bukti Karya Baru</h3>
+            <div class="space-y-4">
+                <div><label for="karya-title" class="block text-sm font-medium text-gray-700">Judul Karya</label><input type="text" id="karya-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[var(--primary-color)] focus:ring-[var(--primary-color)] sm:text-sm"></div>
+                <div><label for="karya-desc" class="block text-sm font-medium text-gray-700">Deskripsi Singkat</label><textarea id="karya-desc" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[var(--primary-color)] focus:ring-[var(--primary-color)] sm:text-sm"></textarea></div>
+                <div><label for="karya-file" class="block text-sm font-medium text-gray-700">Unggah Gambar (JPG/PNG)</label><input type="file" id="karya-file" accept="image/png, image/jpeg" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-[var(--primary-color)] hover:file:bg-blue-100"></div>
+                <div><button id="add-karya-btn" class="btn w-full">Tambahkan Karya</button></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Skrip Navigasi Tab ---
+        function changeTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('tab-active'));
+            document.getElementById(tabName + '-content').classList.remove('hidden');
+            document.querySelector(`button[onclick="changeTab('${tabName}')"]`).classList.add('tab-active');
+        }
+
+        // --- Skrip Modal ---
+        const modal = document.getElementById('add-karya-modal');
+        const openModalBtn = document.getElementById('open-modal-btn');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        function showModal() { modal.classList.remove('hidden'); }
+        function hideModal() { modal.classList.add('hidden'); }
+        openModalBtn.addEventListener('click', showModal);
+        closeModalBtn.addEventListener('click', hideModal);
+        modal.addEventListener('click', (e) => { if (e.target === modal) hideModal(); });
+
+        // --- Skrip Tambah Karya ---
+        document.getElementById('add-karya-btn').addEventListener('click', function() {
+            const title = document.getElementById('karya-title').value;
+            const description = document.getElementById('karya-desc').value;
+            const fileInput = document.getElementById('karya-file');
+            if (!title || !description || fileInput.files.length === 0) {
+                alert('Mohon isi semua kolom (Judul, Deskripsi, dan Gambar).');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const newEntry = document.createElement('div');
+                newEntry.className = 'item-summary animate-on-scroll';
+                newEntry.innerHTML = `
+                    <h3 class="text-2xl mb-2"><a href="#" class="hover:text-[var(--primary-color)]">${title}</a></h3>
+                    <p class="text-[var(--secondary-text)] mb-4">${description}</p>
+                    <img src="${e.target.result}" alt="${title}" class="w-full h-auto object-cover rounded">
+                `;
+                document.getElementById('galeri-karya').appendChild(newEntry);
+                setTimeout(() => {
+                    newEntry.classList.add('is-visible');
+                    observer.observe(newEntry);
+                }, 100);
+
+                document.getElementById('karya-title').value = '';
+                document.getElementById('karya-desc').value = '';
+                fileInput.value = '';
+                hideModal();
+            };
+            reader.readAsDataURL(fileInput.files[0]);
+        });
+
+        // --- Skrip Animasi On-Scroll ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('is-visible');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
+
+
+
