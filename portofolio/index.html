@@ -42,9 +42,14 @@
             border-radius: 0.25rem;
             text-align: center;
             transition: background-color 0.3s;
+            cursor: pointer;
         }
         .btn:hover {
             background-color: var(--primary-hover);
+        }
+        .btn:disabled {
+            background-color: #9ab3d0;
+            cursor: not-allowed;
         }
         .tab-btn {
             border-color: transparent;
@@ -96,6 +101,22 @@
             border-bottom: none;
             margin-bottom: 0;
         }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            background: #000;
+            border-radius: 0.25rem;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
     </style>
 </head>
 <body class="text-gray-800">
@@ -126,8 +147,8 @@
             <h1 class="text-4xl md:text-5xl font-bold text-[var(--dark-color)]">M. Saiful Mukharom, S.Kom.</h1>
             <p class="text-lg text-[var(--secondary-text)] mt-3 mb-6">Seorang pendidik yang bersemangat dalam inovasi pembelajaran dan pengembangan profesional berkelanjutan.</p>
             <div class="mt-6 flex justify-center space-x-6">
-                <a href="https://www.linkedin.com/in/ritnesaif/" class="text-[var(--secondary-text)] hover:text-[var(--primary-color)]" title="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>
-                <a href="https://web.facebook.com/saiful.mukharom/" class="text-[var(--secondary-text)] hover:text-[var(--primary-color)]" title="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
+                <a href="https://www.linkedin.com/in/ritnesaif/" target="_blank" rel="noopener noreferrer" class="text-[var(--secondary-text)] hover:text-[var(--primary-color)]" title="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>
+                <a href="https://web.facebook.com/saiful.mukharom/" target="_blank" rel="noopener noreferrer" class="text-[var(--secondary-text)] hover:text-[var(--primary-color)]" title="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
             </div>
         </section>
 
@@ -150,7 +171,7 @@
                     <div id="pendampingan-content" class="tab-content hidden"><h3 class="text-xl font-semibold mb-4 text-[var(--dark-color)]">Pendampingan Teman Sejawat (3 Tahun Terakhir)</h3><ul class="list-disc list-inside space-y-2 text-[var(--secondary-text)]"><li>Aksi Nyata - Budaya Positif (Disiplin Positif Melalui Keyakinan Kelas) (2023) <a href="https://guru.kemdikbud.go.id/bukti-karya/video/333967" target="_blank" rel="noopener noreferrer" class="text-[var(--primary-color)] hover:underline text-sm font-semibold">Lihat PMM (Link)</a></li><li>Coaching Supervisi Akademik (2023) <a href="https://guru.kemdikbud.go.id/bukti-karya/video/500175" target="_blank" rel="noopener noreferrer" class="text-[var(--primary-color)] hover:underline text-sm font-semibold">Lihat PMM (Link)</a></li><li>Aksi Nyata Topik Merdeka Belajar (Memahami Makna Merdeka Belajar dalam Pembelajaran) (2024) <button onclick="openPdfModal('Aksi Nyata Topik Merdeka Belajar.pdf')" class="text-[var(--primary-color)] hover:underline text-sm font-semibold">Lihat Sertifikat dan Bukti (PDF)</button></li></ul></div>
                     <div id="organisasi-content" class="tab-content hidden"><h3 class="text-xl font-semibold mb-4 text-[var(--dark-color)]">Pengalaman Organisasi Profesi</h3><ul class="list-disc list-inside space-y-2 text-[var(--secondary-text)]"><li>Sekretaris MGMP TKJ KOTA Kediri (2023 - 2024) <button onclick="openPdfModal('SK MGMP 2023-highlight.pdf')" class="text-[var(--primary-color)] hover:underline text-sm font-semibold">Lihat Surat Keterangan (PDF)</button></li><li>Sekretaris Komunitas Belajar SMEKSA Tahun Pelajaran 2024/2025 (2024) <button onclick="openPdfModal('SK_KOMBEL SMEKSA.pdf')" class="text-[var(--primary-color)] hover:underline text-sm font-semibold">Lihat Surat Keterangan (PDF)</button></li><li>Ketua MGMP TKJ  Kota Kediri (2025 - 2027) <button onclick="openPdfModal('SK MGMP SMK 2025-2027.pdf')" class="text-[var(--primary-color)] hover:underline text-sm font-semibold">Lihat Surat Keterangan (PDF)</button></li></ul></div>
                     <div id="karya-content" class="tab-content hidden"><h3 class="text-xl font-semibold mb-4 text-[var(--dark-color)]">Karya Tulis & Inovasi</h3><div class="space-y-4"><div class="p-4 rounded-md border bg-white"><h4 class="font-semibold text-[var(--dark-color)]">Proyek Inovasi MESEMJA: Laboratorium Jaringan Portabel untuk Siswa SMK (2023)</h4><p class="text-sm text-[var(--secondary-text)]">MESEMJA (Meja Simulator & Emulator Jaringan) adalah solusi untuk tantangan pembelajaran praktik di SMK. Proyek ini menghasilkan serangkaian meja lab jaringan yang dapat dipindah-pindah, merepresentasikan komponen jaringan dunia nyata seperti kantor pusat, cabang, dan server farm, untuk memberikan pengalaman belajar yang interaktif dan mendalam.</p><button onclick="openPdfModal('Karya Tulis Ilmiah mesemja .pdf')" class="text-[var(--primary-color)] hover:underline text-sm font-semibold">Lihat Naskah (PDF)</button></div></div></div>
-                    <div id="prestasi-content" class="tab-content hidden"><h3 class="text-xl font-semibold mb-4 text-[var(--dark-color)]">Prestasi & Penghargaan</h3><ul class="list-disc list-inside space-y-2 text-[var(--secondary-text)]"><li>Sertifikasi MikroTik Certified Network Associate (2023)<button onclick="openPdfModal('sert-mtcna-23.pdf')" class="text-[var(--primary-color)] hover:underline text-sm font-semibold">Lihat Sertifikat (PDF)</button></li><li>Sertifikasi MikroTik Certified Routing Engineer (2023) <button onclick="openPdfModal('sert-mtre.pdf')" class="text-[var(--primary-color)] hover:underline text-sm font-semibold">Lihat Sertifikat (PDF)</button></li><li>Sertifikasi Academy Trainer (Berlaku hingga 2026 - Diperpanjang Per 3 Tahun Sekali) <button onclick="openPdfModal('sert-trainer.pdf')" class="text-[var(--primary-color)] hover:underline text-sm font-semibold">Lihat Sertifikat (PDF)</button></li><li>Sertifikat Pendampingan Olimpiade Mikrotik (2025) <button onclick="openPdfModal('sertifikat-ojm-2914-71066764ad70e939c09d.pdf')" class="text-[var(--primary-color)] hover:underline text-sm font-semibold">Lihat Sertifikat (PDF)</button></li></ul></div>
+                    <div id="prestasi-content" class="tab-content hidden"><h3 class="text-xl font-semibold mb-4 text-[var(--dark-color)]">Prestasi & Penghargaan</h3><ul class="list-disc list-inside space-y-2 text-[var(--secondary-text)]"><li>Sertifikasi MikroTik Certified Network Associate (2023)<button onclick="openPdfModal('sert-mtcna-23.pdf')" class="text-[var(--primary-color)] hover:underline text-sm font-semibold">Lihat Sertifikat (PDF)</button></li><li>Sertifikasi MikroTik Certified Routing Engineer (2023) <button onclick="openPdfModal('sert-mtre.pdf')" class="text-[var(--primary-color)] hover:underline text-sm font-semibold">Lihat Sertifikat (PDF)</button></li><li>Sertifikasi Academy Trainer (Berlaku hingga 2026 - Diperpanjang Per 3 Tahun Sekali) <button onclick="openPdfModal('sert-trainer.pdf')" class="text-[var(--primary-color)] hover:underline text-sm font-semibold">Lihat Sertifikat (PDF)</button></li><li>Sertifikat Pendampingan Olimpiade Mikrotik (2025) <button onclick="openPdfModal('sertifikat-ojm-2D2914-71066764ad70e939c09d.pdf')" class="text-[var(--primary-color)] hover:underline text-sm font-semibold">Lihat Sertifikat (PDF)</button></li></ul></div>
                 </div>
             </div>
         </section>
@@ -160,8 +181,11 @@
             <div class="text-center mb-10">
                  <h2 class="section-title text-center mb-4 animate-on-scroll">Bukti Implementasi</h2>
             </div>
-            <div id="galeri-karya">
+                        <div id="galeri-karya">
                 <div class="item-summary animate-on-scroll"><h3 class="text-2xl mb-2"><a href="#" class="hover:text-[var(--primary-color)]">SMK Academy: Menjembatani Kelas dan Industri, Melahirkan Profesional Muda Bersertifikat</a></h3><p class="text-[var(--secondary-text)] mb-4">"SMK Academy" adalah inovasi saya untuk menjembatani kelas dan industri, melahirkan profesional muda TJKT yang kompeten bersertifikat internasional.</p><img src="Sertifikasi-tahap1-2025.jpg" alt="Metode Pembelajaran Interaktif" class="w-full h-auto object-cover rounded"></div>
+            </div>
+            <div id="galeri-karya">
+                <!-- Data dari Firebase akan ditampilkan di sini -->
             </div>
         </section>
     </main>
@@ -185,7 +209,9 @@
             <div class="space-y-4">
                 <div><label for="karya-title" class="block text-sm font-medium text-gray-700">Judul Karya</label><input type="text" id="karya-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[var(--primary-color)] focus:ring-[var(--primary-color)] sm:text-sm"></div>
                 <div><label for="karya-desc" class="block text-sm font-medium text-gray-700">Deskripsi Singkat</label><textarea id="karya-desc" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[var(--primary-color)] focus:ring-[var(--primary-color)] sm:text-sm"></textarea></div>
+                <p class="text-sm text-center text-[var(--secondary-text)] font-semibold">--- Pilih Salah Satu Media ---</p>
                 <div><label for="karya-file" class="block text-sm font-medium text-gray-700">Unggah Gambar (JPG/PNG)</label><input type="file" id="karya-file" accept="image/png, image/jpeg" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-[var(--primary-color)] hover:file:bg-blue-100"></div>
+                <div><label for="karya-youtube-link" class="block text-sm font-medium text-gray-700">Atau Tautan Video YouTube</label><input type="url" id="karya-youtube-link" placeholder="https://www.youtube.com/watch?v=..." class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[var(--primary-color)] focus:ring-[var(--primary-color)] sm:text-sm"></div>
                 <div><button id="add-karya-btn" class="btn w-full">Tambahkan Karya</button></div>
             </div>
         </div>
@@ -199,32 +225,119 @@
         </div>
     </div>
 
-    <script>
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
+
+        // --- Firebase Configuration ---
+        // These variables are provided by the environment.
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : { apiKey: "AIzaSyCrVGnSSUyNaIIEp1Dw30JpQZ90cRF1nhM", authDomain: "myportofolio-digital.firebaseapp.com", projectId: "myportofolio-digital", storageBucket: "myportofolio-digital.firebasestorage.app", messagingSenderId: "1036566006791", appId: "1:1036566006791:web:89eef1f2e75f2446032ea2" };
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        // --- Initialize Firebase ---
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        let userId = null;
+
+        // --- Authentication ---
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                userId = user.uid;
+                loadKarya(); // Load data after user is authenticated
+            } else if (initialAuthToken) {
+                try {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                } catch (error) {
+                    console.error("Error signing in with custom token:", error);
+                    await signInAnonymously(auth); // Fallback to anonymous
+                }
+            } else {
+                 await signInAnonymously(auth);
+            }
+        });
+
+        // --- DOM Elements ---
+        const gallery = document.getElementById('galeri-karya');
+        
+        // --- Load & Display Karya from Firestore ---
+        function loadKarya() {
+            if (!userId) return;
+            const karyaCollectionRef = collection(db, `artifacts/${appId}/public/data/implementasi`);
+            const q = query(karyaCollectionRef, orderBy('createdAt', 'desc')); // Show newest first
+
+            onSnapshot(q, (snapshot) => {
+                gallery.innerHTML = ''; // Clear gallery before rendering
+                snapshot.forEach((doc) => {
+                    const karya = doc.data();
+                    renderKarya(karya);
+                });
+                // Re-initialize animations for new elements
+                document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+            });
+        }
+
+        function renderKarya(karya) {
+            const newEntry = document.createElement('div');
+            newEntry.className = 'item-summary animate-on-scroll';
+            let mediaHTML = '';
+
+            if (karya.youtubeUrl) {
+                mediaHTML = `
+                    <div class="video-container">
+                        <iframe src="${karya.youtubeUrl}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>`;
+            } else if (karya.imageUrl) {
+                mediaHTML = `<img src="${karya.imageUrl}" alt="${karya.title}" class="w-full h-auto object-cover rounded">`;
+            }
+
+            newEntry.innerHTML = `
+                <h3 class="text-2xl mb-2"><a href="#" class="hover:text-[var(--primary-color)]">${karya.title}</a></h3>
+                <p class="text-[var(--secondary-text)] mb-4">${karya.description}</p>
+                ${mediaHTML}
+            `;
+            gallery.appendChild(newEntry);
+            
+            // Make the new element visible after a short delay
+            setTimeout(() => newEntry.classList.add('is-visible'), 100);
+        }
+        
         // --- Skrip Navigasi Tab ---
-        function changeTab(tabName) {
+        window.changeTab = function(tabName) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('tab-active'));
             document.getElementById(tabName + '-content').classList.remove('hidden');
             document.querySelector(`button[onclick="changeTab('${tabName}')"]`).classList.add('tab-active');
         }
 
-        // --- Skrip Modal ---
+        // --- Skrip Modal (Add Karya & PDF) ---
         const modal = document.getElementById('add-karya-modal');
         const openModalBtn = document.getElementById('open-modal-btn');
         const closeModalBtn = document.getElementById('close-modal-btn');
-        function showModal() { modal.classList.remove('hidden'); }
-        function hideModal() { modal.classList.add('hidden'); }
-        openModalBtn.addEventListener('click', showModal);
-        closeModalBtn.addEventListener('click', hideModal);
-        modal.addEventListener('click', (e) => { if (e.target === modal) hideModal(); });
-
-        // --- Skrip PDF Viewer Modal ---
         const pdfModal = document.getElementById('pdf-viewer-modal');
         const closePdfModalBtn = document.getElementById('close-pdf-modal-btn');
         const pdfIframe = document.getElementById('pdf-iframe');
 
-        function openPdfModal(pdfUrl) {
-            // Pastikan Anda menempatkan file PDF di folder yang sama, atau berikan URL lengkap.
+        function showModal() { modal.classList.remove('hidden'); }
+        function hideModal() { 
+            modal.classList.add('hidden');
+            // Clear form on close
+            document.getElementById('karya-title').value = '';
+            document.getElementById('karya-desc').value = '';
+            document.getElementById('karya-file').value = '';
+            document.getElementById('karya-youtube-link').value = '';
+        }
+        openModalBtn.addEventListener('click', showModal);
+        closeModalBtn.addEventListener('click', hideModal);
+        modal.addEventListener('click', (e) => { if (e.target === modal) hideModal(); });
+
+        window.openPdfModal = function(pdfUrl) {
             if (pdfUrl) {
                 pdfIframe.src = pdfUrl;
                 pdfModal.classList.remove('hidden');
@@ -232,50 +345,84 @@
                 alert('Tautan PDF tidak valid.');
             }
         }
-
+        
         function closePdfModal() {
-            pdfIframe.src = ''; // Hentikan pemuatan PDF untuk menghemat sumber daya
+            pdfIframe.src = '';
             pdfModal.classList.add('hidden');
         }
-
         closePdfModalBtn.addEventListener('click', closePdfModal);
-        pdfModal.addEventListener('click', (e) => {
-            // Tutup modal jika area luar (latar belakang) diklik
-            if (e.target === pdfModal) {
-                closePdfModal();
-            }
-        });
+        pdfModal.addEventListener('click', (e) => { if (e.target === pdfModal) closePdfModal(); });
 
-        // --- Skrip Tambah Karya ---
-        document.getElementById('add-karya-btn').addEventListener('click', function() {
+        // --- Skrip Tambah Karya ke Firebase ---
+        function getYouTubeEmbedURL(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? `https://www.youtube.com/embed/${match[2]}` : null;
+        }
+
+        const addKaryaBtn = document.getElementById('add-karya-btn');
+        addKaryaBtn.addEventListener('click', async function() {
+            if (!userId) {
+                alert("Anda belum terautentikasi. Mohon tunggu sebentar.");
+                return;
+            }
+
             const title = document.getElementById('karya-title').value;
             const description = document.getElementById('karya-desc').value;
             const fileInput = document.getElementById('karya-file');
-            if (!title || !description || fileInput.files.length === 0) {
-                alert('Mohon isi semua kolom (Judul, Deskripsi, dan Gambar).');
+            const youtubeLink = document.getElementById('karya-youtube-link').value;
+            const file = fileInput.files[0];
+
+            if (!title || !description || (!file && !youtubeLink)) {
+                alert('Mohon isi Judul, Deskripsi, dan unggah Gambar ATAU masukkan tautan YouTube.');
                 return;
             }
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const newEntry = document.createElement('div');
-                newEntry.className = 'item-summary animate-on-scroll';
-                newEntry.innerHTML = `
-                    <h3 class="text-2xl mb-2"><a href="#" class="hover:text-[var(--primary-color)]">${title}</a></h3>
-                    <p class="text-[var(--secondary-text)] mb-4">${description}</p>
-                    <img src="${e.target.result}" alt="${title}" class="w-full h-auto object-cover rounded">
-                `;
-                document.getElementById('galeri-karya').appendChild(newEntry);
-                setTimeout(() => {
-                    newEntry.classList.add('is-visible');
-                    observer.observe(newEntry);
-                }, 100);
 
-                document.getElementById('karya-title').value = '';
-                document.getElementById('karya-desc').value = '';
-                fileInput.value = '';
+            addKaryaBtn.disabled = true;
+            addKaryaBtn.textContent = 'Mengunggah...';
+
+            try {
+                const karyaData = {
+                    title,
+                    description,
+                    createdAt: serverTimestamp(),
+                    userId: userId
+                };
+
+                if (youtubeLink) {
+                    const embedUrl = getYouTubeEmbedURL(youtubeLink);
+                    if (!embedUrl) {
+                        throw new Error('Tautan YouTube tidak valid.');
+                    }
+                    karyaData.youtubeUrl = embedUrl;
+                } else if (file) {
+                    const storageRef = ref(storage, `implementasi/${appId}/${userId}/${Date.now()}_${file.name}`);
+                    const uploadTask = uploadBytesResumable(storageRef, file);
+
+                    await new Promise((resolve, reject) => {
+                        uploadTask.on('state_changed', 
+                            (snapshot) => { /* Progress handling can be added here */ }, 
+                            (error) => reject(error), 
+                            async () => {
+                                const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                                karyaData.imageUrl = downloadURL;
+                                resolve();
+                            }
+                        );
+                    });
+                }
+                
+                const karyaCollectionRef = collection(db, `artifacts/${appId}/public/data/implementasi`);
+                await addDoc(karyaCollectionRef, karyaData);
                 hideModal();
-            };
-            reader.readAsDataURL(fileInput.files[0]);
+
+            } catch (error) {
+                console.error("Error adding document: ", error);
+                alert(`Gagal menambahkan karya: ${error.message}`);
+            } finally {
+                addKaryaBtn.disabled = false;
+                addKaryaBtn.textContent = 'Tambahkan Karya';
+            }
         });
 
         // --- Skrip Animasi On-Scroll ---
@@ -288,5 +435,4 @@
     </script>
 </body>
 </html>
-
 
