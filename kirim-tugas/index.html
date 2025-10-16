@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengumpul Tugas Online</title>
+    <!-- Menggunakan Tailwind CSS untuk styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom styling untuk select dropdown agar lebih konsisten */
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path stroke="%236b7280" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m6 8 4 4 4-4"/></svg>');
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen py-12">
+
+    <div class="w-full max-w-lg bg-white rounded-xl shadow-xl p-8">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">Form Pengumpulan Tugas</h1>
+            <p class="text-gray-500 mt-2">Harap isi semua kolom dan unggah file tugas Anda dalam format PDF.</p>
+        </div>
+        
+        <!-- Formulir Unggah -->
+        <form action="upload.php" method="post" enctype="multipart/form-data" class="space-y-6">
+            
+            <!-- Dropdown Nomor Absen -->
+            <div>
+                <label for="no_absen" class="block mb-2 text-sm font-medium text-gray-700">No. Absen</label>
+                <select name="no_absen" id="no_absen" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
+                    <option value="" disabled selected>Pilih nomor absen</option>
+                    <!-- Opsi nomor absen akan ditambahkan oleh JavaScript -->
+                </select>
+            </div>
+
+            <!-- Input Nama Lengkap -->
+            <div>
+                <label for="nama_lengkap" class="block mb-2 text-sm font-medium text-gray-700">Nama Lengkap</label>
+                <input type="text" name="nama_lengkap" id="nama_lengkap" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Masukkan nama lengkap Anda" required>
+            </div>
+
+            <!-- Dropdown Tugas -->
+            <div>
+                <label for="tugas" class="block mb-2 text-sm font-medium text-gray-700">Tugas</label>
+                <select name="tugas" id="tugas" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
+                    <option value="" disabled selected>Pilih jenis tugas</option>
+                    <option value="Konfigurasi Routing Statis 3 Router">Konfigurasi Routing Statis 3 Router</option>
+                    <option value="Konfigurasi Load Balancing ECMP">Konfigurasi Load Balancing ECMP</option>
+                    <option value="Konfigurasi TTL">Konfigurasi TTL</option>
+                    <option value="ECMP Fail Over dan Mark Routing">ECMP Fail Over dan Mark Routing</option>
+                    <option value="Routing Dinamis OSPF 3 Router">Routing Dinamis OSPF 3 Router</option>
+                    <option value="Routing OSPF 5 Router 2 Area">Routing OSPF 5 Router 2 Area</option>
+                    <option value="Routing OSPF 5 Router 3 Area Virtual Link">Routing OSPF 5 Router 3 Area Virtual Link</option>
+                    <option value="Konfigurasi VLAN 2 Router">Konfigurasi VLAN 2 Router</option>
+                </select>
+            </div>
+            
+            <!-- Input File PDF -->
+            <div>
+                <label for="pdfFile" class="block mb-2 text-sm font-medium text-gray-700">Lampirkan File</label>
+                <input 
+                    type="file" 
+                    name="pdfFile" 
+                    id="pdfFile" 
+                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none file:bg-blue-600 file:text-white file:border-0 file:px-4 file:py-2 file:mr-4 file:rounded-l-lg"
+                    accept=".pdf"
+                    required>
+                <p class="mt-1 text-xs text-gray-500">Hanya file dengan ekstensi .pdf yang diizinkan.</p>
+            </div>
+            
+            <div>
+                <button type="submit" name="submit" class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-3 text-center transition duration-300 ease-in-out">
+                    Kirim Tugas
+                </button>
+            </div>
+        </form>
+
+    </div>
+
+    <script>
+        // Script untuk mengisi dropdown nomor absen secara dinamis saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            const absenSelect = document.getElementById('no_absen');
+            if (absenSelect) {
+                // Loop dari 1 sampai 35 untuk membuat elemen option
+                for (let i = 1; i <= 35; i++) {
+                    const option = document.createElement('option');
+                    option.value = i;
+                    option.textContent = i;
+                    absenSelect.appendChild(option);
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
