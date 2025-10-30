@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPv6-Verse - Platform Pembelajaran IPv6</title>
+    <!-- Memuat Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Memuat ikon (Heroicons) -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    
+    <style>
+        /* Menggunakan font Inter dari Tailwind */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Menyembunyikan view (halaman) secara default */
+        .view {
+            display: none;
+        }
+        /* Menampilkan view yang aktif */
+        .view.active {
+            display: block;
+        }
+        /* FIX: Override display:block untuk modal agar flex centering berfungsi */
+        #pc1Modal.active {
+            display: flex;
+        }
+        /* Scrollbar kustom untuk terminal */
+        .terminal-output::-webkit-scrollbar {
+            width: 6px;
+        }
+        .terminal-output::-webkit-scrollbar-thumb {
+            background-color: #4b5563; /* gray-600 */
+            border-radius: 3px;
+        }
+        .terminal-output::-webkit-scrollbar-track {
+            background-color: #1f2937; /* gray-800 */
+        }
+        #pc1Modal {
+        display: none;            /* default: hidden */
+        }
+        #pc1Modal.active {
+        display: flex;            /* hanya aktif saat kelas active ada */
+        }
+
+        /* Styling untuk konten teori */
+        .theory-content h3 {
+            @apply text-2xl font-semibold mb-4 mt-6 text-blue-300;
+        }
+        .theory-content h4 {
+            @apply text-xl font-semibold mb-3 mt-5 text-blue-200;
+        }
+        .theory-content p {
+            @apply text-gray-300 mb-4 leading-relaxed;
+        }
+        .theory-content ul {
+            @apply list-disc list-inside text-gray-300 mb-4 ml-4;
+        }
+        .theory-content code {
+            @apply font-mono bg-gray-700 px-2 py-1 rounded text-yellow-300;
+        }
+        .theory-content pre {
+            @apply bg-gray-900 text-green-400 font-mono p-4 rounded-lg overflow-x-auto mb-4;
+        }
+        .theory-content table {
+            @apply min-w-full divide-y divide-gray-700 mb-4;
+        }
+        .theory-content th {
+            @apply px-4 py-3 bg-gray-700 text-left text-sm font-semibold uppercase tracking-wider;
+        }
+        .theory-content td {
+            @apply px-4 py-3 bg-gray-800 font-mono;
+        }
+        .theory-content figure {
+            @apply my-6 bg-gray-700 p-4 rounded-lg text-center;
+        }
+        .theory-content figcaption {
+            @apply text-sm text-gray-400 mt-2 italic;
+        }
+        .theory-content img {
+            @apply w-full h-auto rounded-md mx-auto max-w-2xl;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+
+    <div class="flex flex-col md:flex-row min-h-screen">
+        <!-- Sidebar Navigasi -->
+        <nav class="w-full md:w-64 bg-gray-800 p-4 md:p-6 shadow-lg flex-shrink-0 flex flex-col">
+            <h1 class="text-2xl font-bold text-blue-400 flex items-center mb-6">
+                <ion-icon name="planet-outline" class="mr-2"></ion-icon>
+                IPv6-Verse
+            </h1>
+            
+            <ul class="space-y-2">
+                <li>
+                    <a href="#" onclick="showView('view-dashboard')" class="nav-link flex items-center px-4 py-3 text-gray-300 hover:bg-blue-700 hover:text-white rounded-lg transition-colors duration-200">
+                        <ion-icon name="home-outline" class="mr-3 text-lg"></ion-icon>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="showView('view-modules')" class="nav-link flex items-center px-4 py-3 text-gray-300 hover:bg-blue-700 hover:text-white rounded-lg transition-colors duration-200">
+                        <ion-icon name="library-outline" class="mr-3 text-lg"></ion-icon>
+                        <span>Modul Belajar</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="showView('view-compressor')" class="nav-link flex items-center px-4 py-3 text-gray-300 hover:bg-blue-700 hover:text-white rounded-lg transition-colors duration-200">
+                        <ion-icon name="game-controller-outline" class="mr-3 text-lg"></ion-icon>
+                        <span>Game: Kompresi</span>
+                    </a>
+                </li>
+                 <li>
+                    <a href="#" onclick="showView('view-subnetter')" class="nav-link flex items-center px-4 py-3 text-gray-300 hover:bg-blue-700 hover:text-white rounded-lg transition-colors duration-200">
+                        <ion-icon name="git-network-outline" class="mr-3 text-lg"></ion-icon>
+                        <span>Alat: Subnetter</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="showView('view-lab')" class="nav-link flex items-center px-4 py-3 text-gray-300 hover:bg-blue-700 hover:text-white rounded-lg transition-colors duration-200">
+                        <ion-icon name="flask-outline" class="mr-3 text-lg"></ion-icon>
+                        <span>Virtual Lab</span>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Profil Pengguna (Sederhana) -->
+            <div class="mt-auto">
+                 <div class="bg-gray-700 p-4 rounded-lg">
+                     <div class="flex justify-between items-center mb-2">
+                         <h4 id="userNameEl" class="font-semibold">Siswa TKJ</h4>
+                         <button id="editNameBtn" class="text-gray-400 hover:text-white ml-2">
+                             <ion-icon name="pencil-outline" class="text-lg"></ion-icon>
+                         </button>
+                     </div>
+                     <!-- Input untuk mengedit nama, tersembunyi by default -->
+                     <input type="text" id="userNameInput" class="w-full bg-gray-600 border border-gray-500 rounded px-2 py-1 text-sm" style="display: none;">
+
+                     <div class="flex justify-between items-center mt-2">
+                         <span class="text-sm text-gray-400">Skor:</span>
+                         <span id="userScoreDisplay" class="font-bold text-blue-400 text-lg">0</span>
+                     </div>
+                 </div>
+            </div>
+        </nav>
+
+        <!-- Konten Utama -->
+        <main class="flex-1 p-6 md:p-10 overflow-auto">
+
+            <!-- View: Dashboard -->
+            <section id="view-dashboard" class="view">
+                <h2 class="text-3xl font-bold mb-6">Selamat Datang di IPv6-Verse!</h2>
+                <p class="text-lg text-gray-300 mb-8">Platform "Most Exciting Learning" untuk menguasai pengalamatan IPv6 sesuai kurikulum CCNAv7.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Kartu 1: Mulai Belajar -->
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-blue-500/30 transform hover:-translate-y-1 transition-all duration-300">
+                        <ion-icon name="library-outline" class="text-4xl text-blue-400 mb-4"></ion-icon>
+                        <h3 class="text-xl font-semibold mb-2">Mulai Belajar</h3>
+                        <p class="text-gray-400 mb-4">Lihat semua modul pembelajaran dari Pengenalan hingga Subnetting.</p>
+                        <button onclick="showView('view-modules')" class="w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+                            Lihat Modul
+                        </button>
+                    </div>
+
+                    <!-- Kartu 2: Game Kompresi -->
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-blue-500/30 transform hover:-translate-y-1 transition-all duration-300">
+                        <ion-icon name="game-controller-outline" class="text-4xl text-green-400 mb-4"></ion-icon>
+                        <h3 class="text-xl font-semibold mb-2">Tantangan: Kompresi</h3>
+                        <p class="text-gray-400 mb-4">Uji kemampuanmu memperpendek alamat IPv6 di mini-game!</p>
+                        <button onclick="showView('view-compressor')" class="w-full bg-green-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-700 transition-colors">
+                            Mainkan Game
+                        </button>
+                    </div>
+
+                    <!-- Kartu 3: Virtual Lab -->
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-blue-500/30 transform hover:-translate-y-1 transition-all duration-300">
+                        <ion-icon name="flask-outline" class="text-4xl text-yellow-400 mb-4"></ion-icon>
+                        <h3 class="text-xl font-semibold mb-2">Virtual Lab</h3>
+                        <p class="text-gray-400 mb-4">Praktik konfigurasi GUA dan LLA statis dalam simulator.</p>
+                        <button onclick="showView('view-lab')" class="w-full bg-yellow-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-yellow-700 transition-colors">
+                            Mulai Lab
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- View: Modul Belajar -->
+            <section id="view-modules" class="view">
+                <h2 class="text-3xl font-bold mb-8">Modul Pembelajaran (CCNAv7 M12)</h2>
+                <div class="space-y-4">
+                    <!-- Daftar Modul -->
+                    <div class="bg-gray-800 p-5 rounded-lg flex flex-col md:flex-row justify-between md:items-center">
+                        <div class="mb-4 md:mb-0">
+                            <span class="text-sm font-medium text-blue-400">12.1</span>
+                            <h3 class="text-xl font-semibold">Kebutuhan IPv6</h3>
+                            <p class="text-gray-400">Masalah keterbatasan IPv4 dan ko-eksistensi.</p>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <button onclick="showView('view-teori-12-1')" class="w-full md:w-auto bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">Baca Teori</button>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-800 p-5 rounded-lg flex flex-col md:flex-row justify-between md:items-center shadow-lg border border-green-500">
+                        <div class="mb-4 md:mb-0">
+                            <span class="text-sm font-medium text-blue-400">12.2</span>
+                            <h3 class="text-xl font-semibold">Representasi Alamat IPv6</h3>
+                            <p class="text-gray-400">Aturan kompresi (Menghilangkan 0 dan Tanda ::).</p>
+                        </div>
+                        <div class="flex-shrink-0 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+                            <button onclick="showView('view-teori-12-2')" class="w-full md:w-auto bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">Baca Teori</button>
+                            <button onclick="showView('view-compressor')" class="w-full md:w-auto bg-green-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-700 transition-colors">
+                                Mulai Game
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-800 p-5 rounded-lg flex flex-col md:flex-row justify-between md:items-center">
+                        <div class="mb-4 md:mb-0">
+                            <span class="text-sm font-medium text-blue-400">12.3</span>
+                            <h3 class="text-xl font-semibold">Jenis Alamat IPv6</h3>
+                            <p class="text-gray-400">GUA, LLA, Unicast, Multicast.</p>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <button onclick="showView('view-teori-12-3')" class="w-full md:w-auto bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">Baca Teori</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-800 p-5 rounded-lg flex flex-col md:flex-row justify-between md:items-center shadow-lg border border-yellow-500">
+                        <div class="mb-4 md:mb-0">
+                            <span class="text-sm font-medium text-blue-400">12.4</span>
+                            <h3 class="text-xl font-semibold">Konfigurasi Statis GUA dan LLA</h3>
+                            <p class="text-gray-400">Konfigurasi alamat statis pada router dan host.</p>
+                        </div>
+                        <div class="flex-shrink-0 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+                            <button onclick="showView('view-teori-12-4')" class="w-full md:w-auto bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">Baca Teori</button>
+                            <button onclick="showView('view-lab')" class="w-full md:w-auto bg-yellow-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-yellow-700 transition-colors">
+                                Mulai Lab
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Modul 12.5 & 12.6 Baru -->
+                    <div class="bg-gray-800 p-5 rounded-lg flex flex-col md:flex-row justify-between md:items-center">
+                        <div class="mb-4 md:mb-0">
+                            <span class="text-sm font-medium text-blue-400">12.5</span>
+                            <h3 class="text-xl font-semibold">Pengalamatan Dinamis GUA</h3>
+                            <p class="text-gray-400">Mengenal SLAAC dan DHCPv6.</p>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <button onclick="showView('view-teori-12-5')" class="w-full md:w-auto bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">Baca Teori</button>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-800 p-5 rounded-lg flex flex-col md:flex-row justify-between md:items-center">
+                        <div class="mb-4 md:mb-0">
+                            <span class="text-sm font-medium text-blue-400">12.6</span>
+                            <h3 class="text-xl font-semibold">Pengalamatan Dinamis LLA</h3>
+                            <p class="text-gray-400">Pembuatan LLA dinamis dan verifikasi.</p>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <button onclick="showView('view-teori-12-6')" class="w-full md:w-auto bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">Baca Teori</button>
+                        </div>
+                    </div>
+
+                    <!-- Modul 12.7 Baru -->
+                    <div class="bg-gray-800 p-5 rounded-lg flex flex-col md:flex-row justify-between md:items-center">
+                        <div class="mb-4 md:mb-0">
+                            <span class="text-sm font-medium text-blue-400">12.7</span>
+                            <h3 class="text-xl font-semibold">Alamat Multicast IPv6</h3>
+                            <p class="text-gray-400">Mengenal alamat ff02::1 dan ff02::2.</p>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <button onclick="showView('view-teori-12-7')" class="w-full md:w-auto bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">Baca Teori</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-800 p-5 rounded-lg flex flex-col md:flex-row justify-between md:items-center shadow-lg border border-purple-500">
+                        <div class="mb-4 md:mb-0">
+                            <span class="text-sm font-medium text-blue-400">12.8</span>
+                            <h3 class="text-xl font-semibold">Subnetting Jaringan IPv6</h3>
+                            <p class="text-gray-400">Menggunakan Subnet ID untuk alokasi subnet /64.</p>
+                        </div>
+                        <div class="flex-shrink-0 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+                            <button onclick="showView('view-teori-12-8')" class="w-full md:w-auto bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">Baca Teori</button>
+                            <button onclick="showView('view-subnetter')" class="w-full md:w-auto bg-purple-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-purple-700 transition-colors">
+                                Buka Alat
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- View: Game Kompresor -->
+            <section id="view-compressor" class="view">
+                <h2 class="text-3xl font-bold mb-2">Game: IPv6 Address Compressor</h2>
+                <p class="text-lg text-gray-300 mb-6">Misi: Kompres alamat IPv6 berikut se-singkat mungkin!</p>
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg max-w-2xl mx-auto">
+                    <div class="flex justify-between items-center mb-4">
+                        <h4 class="text-lg font-medium">Alamat Lengkap:</h4>
+                        <span class="text-2xl font-bold text-blue-400">Skor: <span id="gameScore">0</span></span>
+                    </div>
+                    <!-- Alamat soal -->
+                    <div class="bg-gray-900 p-4 rounded-lg mb-4 text-center">
+                        <code id="fullAddress" class="text-lg md:text-xl font-mono text-yellow-300 break-all">...memuat alamat...</code>
+                    </div>
+                    
+                    <!-- Input Jawaban -->
+                    <div class="mb-4">
+                        <label for="compressedInput" class="block text-sm font-medium text-gray-300 mb-2">Jawaban (format terkompresi):</label>
+                        <input type="text" id="compressedInput" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white font-mono text-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ketik jawabanmu...">
+                    </div>
+                    
+                    <!-- Tombol Aksi -->
+                    <div class="flex space-x-4">
+                        <button id="checkCompressionBtn" class="flex-1 bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+                            Cek Jawaban
+                        </button>
+                        <button id="nextCompressionBtn" class="flex-1 bg-gray-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-gray-700 transition-colors" style="display: none;">
+                            Soal Berikutnya
+                        </button>
+                    </div>
+                    
+                    <!-- Feedback -->
+                    <div id="compressionFeedback" class="mt-4 p-4 rounded-lg text-center font-medium" style="display: none;"></div>
+                </div>
+            </section>
+            
+            <!-- View: Visual Subnetter -->
+            <section id="view-subnetter" class="view">
+                <h2 class="text-3xl font-bold mb-2">Alat: Visual Subnetter IPv6</h2>
+                <p class="text-lg text-gray-300 mb-6">Visualisasikan alokasi subnet /64 dari Global Routing Prefix /48.</p>
+                
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg max-w-3xl mx-auto">
+                    <!-- Input Prefix -->
+                    <div class="mb-4">
+                        <label for="basePrefixInput" class="block text-sm font-medium text-gray-300 mb-2">Global Routing Prefix (contoh: /48)</label>
+                        <input type="text" id="basePrefixInput" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white font-mono text-lg" value="2001:db8:acad">
+                    </div>
+
+                    <!-- Slider Subnet ID -->
+                    <div class="mb-6">
+                        <label for="subnetBitsSlider" class="block text-sm font-medium text-gray-300 mb-2">Panjang Subnet ID (bits): <span id="subnetBitsValue" class="font-bold text-blue-400 text-lg">16</span> bits</label>
+                        <input type="range" id="subnetBitsSlider" min="1" max="16" value="16" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500">
+                    </div>
+
+                    <!-- Hasil Kalkulasi -->
+                    <div class="bg-gray-900 p-6 rounded-lg grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-gray-700 p-4 rounded-lg">
+                            <span class="text-sm text-gray-400 block">Total Subnet</span>
+                            <span id="subnetCount" class="text-3xl font-bold text-green-400">65.536</span>
+                        </div>
+                        <div class="bg-gray-700 p-4 rounded-lg">
+                            <span class="text-sm text-gray-400 block">Prefix Subnet Baru</span>
+                            <span id="finalPrefixDisplay" class="text-3xl font-bold text-yellow-400">/64</span>
+                        </div>
+                        <div class="bg-gray-700 p-4 rounded-lg md:col-span-2">
+                            <span class="text-sm text-gray-400 block">Alamat Subnet Pertama</span>
+                            <code id="firstSubnet" class="text-xl font-mono text-white break-all">2001:db8:acad:0000::/64</code>
+                        </div>
+                        <div class="bg-gray-700 p-4 rounded-lg md:col-span-2">
+                            <span class="text-sm text-gray-400 block">Alamat Subnet Terakhir</span>
+                            <code id="lastSubnet" class="text-xl font-mono text-white break-all">2001:db8:acad:ffff::/64</code>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- View: Virtual Lab -->
+            <section id="view-lab" class="view">
+                <h2 class="text-3xl font-bold mb-2">Virtual Lab: Konfigurasi Statis</h2>
+                <p class="text-lg text-gray-300 mb-6">Misi (LKPD 2): Konfigurasikan GUA dan LLA pada PC1 agar bisa ping ke Gateway (R1).</p>
+                
+                <!-- Area Topologi Sederhana -->
+                <div class="relative bg-gray-800 p-8 rounded-lg shadow-lg h-64 flex items-center justify-around">
+                    <!-- PC1 -->
+                    <div id="pc1Device" class="flex flex-col items-center cursor-pointer group">
+                        <ion-icon name="desktop-outline" class="text-6xl text-blue-300 group-hover:text-blue-400 transition-colors"></ion-icon>
+                        <span class="mt-2 font-semibold">PC-1</span>
+                        <span id="pc1Status" class="text-sm text-red-400">Belum Dikonfigurasi</span>
+                    </div>
+                    
+                    <!-- Garis Koneksi -->
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/3 h-1 bg-gray-600"></div>
+
+                    <!-- R1 -->
+                    <div class="flex flex-col items-center">
+                        <ion-icon name="server-outline" class="text-6xl text-green-300"></ion-icon>
+                        <span class="mt-2 font-semibold">R-1 (Gateway)</span>
+                        <span class="text-sm text-green-400">fe80::1</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ====================================================== -->
+            <!-- ==          HALAMAN TEORI BARU DIMULAI DARI SINI      == -->
+            <!-- ====================================================== -->
+
+            <!-- View: Teori 12.1 - Masalah IPv4 -->
+            <section id="view-teori-12-1" class="view">
+                <button onclick="showView('view-modules')" class="mb-6 bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg hover:bg-gray-600 transition-colors flex items-center">
+                    <ion-icon name="arrow-back-outline" class="mr-2"></ion-icon>
+                    Kembali ke Modul
+                </button>
+                <div class="bg-gray-800 p-6 md:p-8 rounded-lg shadow-lg theory-content">
+                    <h2 class="text-3xl font-bold mb-6 border-b border-gray-700 pb-4">12.1 Masalah IPv4</h2>
+                    
+                    <h3>Kebutuhan untuk IPv6</h3>
+                    <p>Anda sudah tahu bahwa IPv4 kehabisan alamat. Itulah mengapa Anda perlu belajar tentang IPv6. IPv6 dirancang untuk menjadi penerus IPv4. IPv6 memiliki ruang alamat 128-bit yang lebih besar, menyediakan 340 undecillion (yaitu, 340 diikuti oleh 36 nol) kemungkinan alamat. Namun, IPv6 lebih dari sekadar alamat yang lebih besar.</p>
+                    <p>Ketika IETF memulai pengembangan penerus IPv4, IETF menggunakan kesempatan ini untuk memperbaiki keterbatasan IPv4 dan memasukkan peningkatan. Salah satu contohnya adalah Internet Control Message Protocol versi 6 (ICMPv6), yang mencakup resolusi alamat dan autokonfigurasi alamat yang tidak ditemukan di ICMP untuk IPv4 (ICMPv4).</p>
+                    <p>Menipisnya ruang alamat IPv4 telah menjadi faktor motivasi untuk pindah ke IPv6. Ketika Afrika, Asia, dan wilayah lain di dunia menjadi lebih terhubung ke internet, tidak ada cukup alamat IPv4 untuk mengakomodasi pertumbuhan ini. Seperti yang ditunjukkan pada gambar, empat dari lima RIR telah kehabisan alamat IPv4.</p>
+                    
+                    <figure>
+                        <img src="https://placehold.co/600x350/374151/e5e7eb?text=Peta+RIR+dan+Tanggal+Kehabisan+IPv4" alt="Peta RIR dan Tanggal Kehabisan IPv4" class="w-full h-auto rounded-md mx-auto">
+                        <figcaption>Tanggal Kehabisan IPv4 RIR (Regional Internet Registries).</figcaption>
+                    </figure>
+
+                    <p>IPv4 memiliki maksimum teoritis 4,3 miliar alamat. Alamat pribadi dalam kombinasi dengan Network Address Translation (NAT) telah berperan dalam memperlambat penipisan ruang alamat IPv4. Namun, NAT bermasalah untuk banyak aplikasi, menciptakan latensi, dan memiliki keterbatasan yang sangat menghambat komunikasi peer-to-peer.</p>
+
+                    <h4>Internet of Things (IoT)</h4>
+                    <p>Internet saat ini sangat berbeda dari internet beberapa dekade terakhir. Internet berkembang menjadi Internet of Things (IoT). Tidak lagi satu-satunya perangkat yang mengakses internet adalah komputer, tablet, dan smartphone. Perangkat masa depan yang dilengkapi sensor dan siap internet akan mencakup segala hal mulai dari mobil dan perangkat biomedis, hingga peralatan rumah tangga dan ekosistem alami.</p>
+                    <p>Dengan populasi internet yang meningkat, ruang alamat IPv4 yang terbatas, masalah dengan NAT dan IoT, saatnya telah tiba untuk memulai transisi ke IPv6.</p>
+
+                    <h3>Ko-eksistensi (Berdampingan) IPv4 dan IPv6</h3>
+                    <p>Tidak ada tanggal khusus untuk pindah ke IPv6. Baik IPv4 dan IPv6 akan hidup berdampingan dalam waktu dekat dan transisi akan memakan waktu beberapa tahun. IETF telah menciptakan berbagai protokol dan alat untuk membantu administrator jaringan memigrasikan jaringan mereka ke IPv6. Teknik migrasi dapat dibagi menjadi tiga kategori:</p>
+                    <ul>
+                        <li><strong>Dual Stack:</strong> Memungkinkan IPv4 dan IPv6 untuk hidup berdampingan di segmen jaringan yang sama. Perangkat Dual Stack menjalankan tumpukan protokol IPv4 dan IPv6 secara bersamaan.</li>
+                        <li><strong>Tunneling:</strong> Metode pengangkutan paket IPv6 melalui jaringan IPv4. Paket IPv6 dienkapsulasi di dalam paket IPv4.</li>
+                        <li><strong>Translation (NAT64):</strong> Memungkinkan perangkat yang mendukung IPv6 untuk berkomunikasi dengan perangkat yang mendukung IPv4. Paket IPv6 diterjemahkan ke paket IPv4 dan sebaliknya.</li>
+                    </ul>
+
+                    <figure>
+                        <img src="https://placehold.co/600x300/374151/e5e7eb?text=Diagram+Dual+Stack" alt="Diagram Dual Stack" class="w-full h-auto rounded-md mx-auto">
+                        <figcaption>Diagram Dual Stack: Perangkat menjalankan IPv4 dan IPv6 secara bersamaan.</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="https://placehold.co/600x300/374151/e5e7eb?text=Diagram+Tunneling" alt="Diagram Tunneling" class="w-full h-auto rounded-md mx-auto">
+                        <figcaption>Diagram Tunneling: Paket IPv6 "dibungkus" dalam paket IPv4.</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="https://placehold.co/600x300/374151/e5e7eb?text=Diagram+NAT64+Translation" alt="Diagram NAT64" class="w-full h-auto rounded-md mx-auto">
+                        <figcaption>Diagram NAT64 Translation: Router menerjemahkan antar protokol.</figcaption>
+                    </figure>
+                </div>
+            </section>
+
+            <!-- View: Teori 12.2 - Representasi Alamat -->
+            <section id="view-teori-12-2" class="view">
+                <button onclick="showView('view-modules')" class="mb-6 bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg hover:bg-gray-600 transition-colors flex items-center">
+                    <ion-icon name="arrow-back-outline" class="mr-2"></ion-icon>
+                    Kembali ke Modul
+                </button>
+                <div class="bg-gray-800 p-6 md:p-8 rounded-lg shadow-lg theory-content">
+                    <h2 class="text-3xl font-bold mb-6 border-b border-gray-700 pb-4">12.2 Representasi Alamat IPv6</h2>
+                    
+                    <h3>Format Pengalamatan IPv6</h3>
+                    <p>Alamat IPv6 memiliki panjang 128 bit dan ditulis sebagai string nilai heksadesimal. Setiap empat bit diwakili oleh satu digit heksadesimal; untuk total 32 nilai heksadesimal. Alamat IPv6 tidak peka huruf besar-kecil.</p>
+                    <p>Format yang lebih disukai untuk menulis alamat IPv6 adalah <code>x:x:x:x:x:x:x:x</code>, dengan setiap “x” terdiri dari empat nilai heksadesimal. Istilah tidak resmi "hextet" digunakan untuk merujuk ke segmen 16 bit (atau empat nilai heksadesimal) ini.</p>
+                    <figure>
+                        <img src="https://placehold.co/600x300/374151/e5e7eb?text=Struktur+Alamat+IPv6" alt="Struktur Hextet IPv6" class="w-full h-auto rounded-md mx-auto">
+                        <figcaption>Setiap 'x' adalah Hextet 16-bit, terdiri dari 4 digit heksadesimal.</figcaption>
+                    </figure>
+                    <p>Contoh alamat IPv6 dalam format preferred (lengkap): <code>2001:0db8:0000:1111:0000:0000:0000:0200</code></p>
+
+                    <h3>Aturan 1 – Abaikan Angka Nol Awal (Leading Zeros)</h3>
+                    <p>Aturan pertama untuk mengurangi notasi adalah menghilangkan 0 (nol) di awal (leading zeros) di hextet mana pun.</p>
+                    <ul>
+                        <li><code>01ab</code> dapat direpresentasikan sebagai <code>1ab</code></li>
+                        <li><code>09f0</code> dapat direpresentasikan sebagai <code>9f0</code></li>
+                        <li><code>00ab</code> dapat direpresentasikan sebagai <code>ab</code></li>
+                        <li><code>0000</code> dapat direpresentasikan sebagai <code>0</code></li>
+                    </ul>
+                    <p>Aturan ini hanya berlaku untuk <strong>awalan</strong> 0, BUKAN pada <strong>akhiran</strong> 0. (Misal, <code>abc0</code> tetap <code>abc0</code>).</p>
+                    <p><strong>Contoh Penerapan Aturan 1:</strong></p>
+                    <div class="overflow-x-auto">
+                        <table>
+                            <thead>
+                                <tr><th>Type</th><th>Alamat</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-gray-400">Preferred</td>
+                                    <td><code>2001:0db8:0000:1111:0000:0000:0000:0200</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-gray-400">Tanpa 0 Awal</td>
+                                    <td><code>2001:db8:0:1111:0:0:0:200</code></td>
+                                </tr>
+                                <tr class="border-t border-gray-700">
+                                    <td class="text-gray-400">Preferred</td>
+                                    <td><code>fe80:0000:0000:0000:0123:4567:89ab:cdef</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-gray-400">Tanpa 0 Awal</td>
+                                    <td><code>fe80:0:0:0:123:4567:89ab:cdef</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Aturan 2 – Titik Dua Ganda (Double Colon ::)</h3>
+                    <p>Aturan kedua adalah bahwa titik dua ganda (<code>::</code>) dapat menggantikan <strong>satu string tunggal</strong> yang berdekatan dari satu atau lebih hextet yang berisi semua nol.</p>
+                    <p>Titik dua ganda (<code>::</code>) hanya dapat digunakan <strong>satu kali</strong> dalam sebuah alamat. Jika digunakan lebih dari sekali, alamatnya akan ambigu (tidak jelas di mana harus meletakkan nolnya).</p>
+                    <p><strong>Praktik Terbaik:</strong> Jika sebuah alamat memiliki lebih dari satu string nol (misal <code>2001:0:0:abcd:0:0:0:1</code>), gunakan <code>::</code> pada string terpanjang. Jika stringnya sama panjang (misal <code>2001:0:0:ab:cd:0:0:1</code>), <code>::</code> harus digunakan pada string pertama.</p>
+                    
+                    <p><strong>Contoh Penerapan Aturan 1 dan 2 (Format Terkompresi):</strong></p>
+                    <div class="overflow-x-auto">
+                         <table>
+                            <thead>
+                                <tr><th>Type</th><th>Alamat</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-gray-400">Preferred</td>
+                                    <td><code>fe80:0000:0000:0000:0123:4567:89ab:cdef</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-gray-400">Aturan 1</td>
+                                    <td><code>fe80:0:0:0:123:4567:89ab:cdef</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-gray-400">Aturan 2 (Kompres)</td>
+                                    <td><code>fe80::123:4567:89ab:cdef</code></td>
+                                </tr>
+                                <tr class="border-t border-gray-700">
+                                    <td class="text-gray-400">Preferred</td>
+                                    <td><code>2001:0db8:0000:1111:0000:0000:0000:0200</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-gray-400">Aturan 1</td>
+                                    <td><code>2001:db8:0:1111:0:0:0:200</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-gray-400">Aturan 2 (Kompres)</td>
+                                    <td><code>2001:db8:0:1111::200</code></td>
+                                </tr>
+                                <tr class="border-t border-gray-700">
+                                    <td class="text-gray-400">Preferred</td>
+                                    <td><code>0000:0000:0000:0000:0000:0000:0000:0001</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-gray-400">Aturan 1</td>
+                                    <td><code>0:0:0:0:0:0:0:1</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-gray-400">Aturan 2 (Kompres)</td>
+                                    <td><code>::1</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- View: Teori 12.3 - Jenis Alamat -->
+            <section id="view-teori-12-3" class="view">
+                <button onclick="showView('view-modules')" class="mb-6 bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg hover:bg-gray-600 transition-colors flex items-center">
+                    <ion-icon name="arrow-back-outline" class="mr-2"></ion-icon>
+                    Kembali ke Modul
+                </button>
+                <div class="bg-gray-800 p-6 md:p-8 rounded-lg shadow-lg theory-content">
+                    <h2 class="text-3xl font-bold mb-6 border-b border-gray-700 pb-4">12.3 Jenis Alamat IPv6</h2>
+                    
+                    <h3>Unicast, Multicast, Anycast</h3>
+                    <p>Ada tiga kategori besar alamat IPv6:</p>
+                    <ul>
+                        <li><strong>Unicast:</strong> Mengidentifikasi interface secara unik. Paket dikirim ke satu interface.</li>
+                        <li><strong>Multicast:</strong> Digunakan untuk mengirim satu paket ke beberapa tujuan (grup multicast).</li>
+                        <li><strong>Anycast:</strong> Alamat unicast yang dapat ditetapkan ke beberapa perangkat. Paket dikirim ke perangkat *terdekat* yang memiliki alamat tersebut.</li>
+                    </ul>
+                    <p>Tidak seperti IPv4, IPv6 <strong>tidak memiliki alamat broadcast</strong>. Fungsinya digantikan oleh alamat multicast all-node.</p>
+
+                    <h3>Prefix Length IPv6</h3>
+                    <p>IPv6 tidak menggunakan subnet mask. IPv6 menggunakan <strong>Prefix Length</strong> (notasi CIDR /) untuk menunjukkan bagian network. Prefix length bisa berkisar dari 0 hingga 128. Untuk LAN, prefix length yang direkomendasikan adalah <code>/64</code>.</p>
+                    <figure>
+                        <img src="https://placehold.co/600x200/374151/e5e7eb?text=Prefix+/64" alt="Struktur Prefix /64" class="w-full h-auto rounded-md mx-auto">
+                        <figcaption>Prefix /64 berarti 64 bit pertama adalah Network (Prefix) dan 64 bit terakhir adalah Host (Interface ID).</figcaption>
+                    </figure>
+
+                    <h3>Jenis Alamat Unicast IPv6</h3>
+                    <p>Perangkat IPv6 biasanya memiliki dua alamat unicast:</p>
+                    <figure>
+                        <img src="https://placehold.co/600x350/374151/e5e7eb?text=Jenis+Alamat+Unicast+IPv6" alt="Jenis Alamat Unicast IPv6" class="w-full h-auto rounded-md mx-auto">
+                        <figcaption>Berbagai jenis alamat Unicast IPv6.</figcaption>
+                    </figure>
+                    <ol class="list-decimal list-inside text-gray-300 mb-4 ml-4">
+                        <li><strong>Global Unicast Address (GUA):</strong> Mirip dengan alamat IPv4 publik. Alamat ini unik secara global dan dapat dirutekan di internet. (Contoh: <code>2001:db8:acad::/48</code>).</li>
+                        <li><strong>Link-local Address (LLA):</strong> Diperlukan untuk setiap perangkat IPv6. Hanya digunakan untuk berkomunikasi dengan perangkat lain di link (subnet) yang sama. Router tidak akan meneruskan paket LLA.</li>
+                    </ol>
+
+                    <h3>GUA IPv6</h3>
+                    <p>GUA adalah alamat yang setara dengan IPv4 publik. Saat ini, hanya GUA yang dimulai dengan <code>001</code> (atau <code>2000::/3</code>) yang sedang dialokasikan. GUA memiliki tiga bagian:</p>
+                    <figure>
+                        <img src="https://placehold.co/600x250/374151/e5e7eb?text=Struktur+GUA" alt="Struktur GUA IPv6" class="w-full h-auto rounded-md mx-auto">
+                        <figcaption>Struktur Alamat Global Unicast (GUA).</figcaption>
+                    </figure>
+                    <ul>
+                        <li><strong>Global Routing Prefix:</strong> Bagian network yang ditetapkan oleh ISP ke pelanggan (Misal, <code>/48</code>).</li>
+                        <li><strong>Subnet ID:</strong> Area yang digunakan oleh organisasi untuk mengidentifikasi subnet internal (Misal, 16 bit jika prefix <code>/48</code> dan Interface ID <code>/64</code>).</li>
+                        <li><strong>Interface ID:</strong> Setara dengan bagian host di IPv4 (Selalu disarankan 64 bit).</li>
+                    </ul>
+
+                    <h3>LLA IPv6</h3>
+                    <p>LLA memungkinkan perangkat berkomunikasi di link lokal (subnet) yang sama, bahkan tanpa GUA. Setiap interface IPv6 *harus* memiliki LLA.</p>
+                    <p>LLA selalu berada dalam rentang <code>fe80::/10</code>. Router tidak akan meneruskan paket dengan LLA sebagai sumber atau tujuan.</p>
+                    <p>Host menggunakan LLA dari router lokal sebagai <strong>default gateway</strong>.</p>
+                    <figure>
+                        <img src="https://placehold.co/600x300/374151/e5e7eb?text=Komunikasi+Link-Local" alt="Komunikasi Link-Local" class="w-full h-auto rounded-md mx-auto">
+                        <figcaption>Komunikasi LLA hanya terjadi di dalam link (subnet) yang sama dan tidak dilewatkan oleh router.</figcaption>
+                    </figure>
+                </div>
+            </section>
+
+            <!-- View: Teori 12.4 - Konfigurasi Alamat -->
+            <section id="view-teori-12-4" class="view">
+                <button onclick="showView('view-modules')" class="mb-6 bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg hover:bg-gray-600 transition-colors flex items-center">
+                    <ion-icon name="arrow-back-outline" class="mr-2"></ion-icon>
+                    Kembali ke Modul
+                </button>
+                <div class="bg-gray-800 p-6 md:p-8 rounded-lg shadow-lg theory-content">
+                    <h2 class="text-3xl font-bold mb-6 border-b border-gray-700 pb-4">12.4 Konfigurasi Statis GUA dan LLA</h2>
+                    
+                    <h3>12.4.1 Konfigurasi Statis GUA pada Router</h3>
+                    <p>Perintah Cisco IOS untuk mengkonfigurasi GUA IPv6 pada interface adalah <code>ipv6 address [ipv6-address]/[prefix-length]</code>.</p>
+                    <figure>
+                        <img src="https://placehold.co/600x250/374151/e5e7eb?text=Topologi+Contoh" alt="Topologi Contoh" class="w-full h-auto rounded-md mx-auto">
+                        <figcaption>Topologi contoh untuk konfigurasi statis.</figcaption>
+                    </figure>
+                    <pre><code>R1(config)# interface gigabitethernet 0/0/0
+R1(config-if)# ipv6 address 2001:db8:acad:1::1/64
+R1(config-if)# no shutdown
+R1(config-if)# exit
+R1(config)# interface gigabitethernet 0/0/1
+R1(config-if)# ipv6 address 2001:db8:acad:2::1/64
+R1(config-if)# no shutdown</code></pre>
+
+                    <h3>12.4.3 Konfigurasi Statis LLA</h3>
+                    <p>Mengonfigurasi LLA secara manual disarankan pada router agar mudah dikenali (misal, <code>fe80::1</code>) sebagai default gateway. Perintahnya adalah <code>ipv6 address [lla-address] link-local</code>.</p>
+                    <pre><code>R1(config)# interface gigabitethernet 0/0/0
+R1(config-if)# ipv6 address fe80::1:1 link-local
+R1(config-if)# exit
+R1(config)# interface gigabitethernet 0/0/1
+R1(config-if)# ipv6 address fe80::2:1 link-local</code></pre>
+
+                    <h3>12.4.2 Konfigurasi Statis GUA pada Host Windows</h3>
+                    <p>Mengonfigurasi GUA pada host Windows mirip dengan IPv4. Anda memasukkan alamat IPv6, prefix length, dan default gateway (yang biasanya adalah LLA router).</p>
+                    <figure>
+                        <img src="https://placehold.co/600x400/374151/e5e7eb?text=Dialog+Konfigurasi+IP+Windows" alt="Konfigurasi IP Windows" class="w-full h-auto rounded-md mx-auto">
+                        <figcaption>Konfigurasi GUA statis pada Windows.</figcaption>
+                    </figure>
+                </div>
+            </section>
+
+            <!-- View: Teori 12.5 - Pengalamatan Dinamis GUA -->
+            <section id="view-teori-12-5" class="view">
+                <button onclick="showView('view-modules')" class="mb-6 bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg hover:bg-gray-600 transition-colors flex items-center">
+                    <ion-icon name="arrow-back-outline" class="mr-2"></ion-icon>
+                    Kembali ke Modul
+                </button>
+                <div class="bg-gray-800 p-6 md:p-8 rounded-lg shadow-lg theory-content">
+                    <h2 class="text-3xl font-bold mb-6 border-b border-gray-700 pb-4">12.5 Pengalamatan Dinamis untuk GUA</h2>
+                    
+                    <h3>12.5.1 Pesan RS dan RA</h3>
+                    <p>Perangkat dapat memperoleh GUA secara dinamis melalui pesan ICMPv6. Proses ini melibatkan dua pesan:</p>
+                    <ul>
+                        <li><strong>Router Solicitation (RS):</strong> Dikirim oleh host yang meminta informasi pengalamatan.</li>
+                        <li><strong>Router Advertisement (RA):</strong> Dikirim oleh router setiap 200 detik (atau sebagai balasan RS) untuk memberi tahu host cara mendapatkan alamat.</li>
+                    </ul>
+                    <p>Agar router dapat mengirim RA, perintah global <code>ipv6 unicast-routing</code> harus diaktifkan.</p>
+                    <p>Pesan RA menyarankan salah satu dari tiga metode:</p>
+                    
+                    <h3>12.5.2 Metode 1: SLAAC (Stateless Address Autoconfiguration)</h3>
+                    <p>Perangkat membuat GUA-nya sendiri. Pesan RA menyediakan <strong>Prefix</strong> (64 bit pertama), dan perangkat membuat <strong>Interface ID</strong> (64 bit terakhir) sendiri. Perangkat juga menggunakan LLA router (alamat sumber RA) sebagai default gateway.</p>
+                    
+                    <h3>12.5.3 Metode 2: SLAAC dengan DHCPv6 Stateless</h3>
+                    <p>Pesan RA memberi tahu perangkat:</p>
+                    <ol>
+                        <li>Gunakan SLAAC untuk membuat GUA dan Default Gateway.</li>
+                        <li>Hubungi server DHCPv6 "Stateless" untuk info tambahan (seperti alamat server DNS).</li>
+                    </ol>
+
+                    <h3>12.5.4 Metode 3: DHCPv6 Stateful (No SLAAC)</h3>
+                    <p>Pesan RA memberi tahu perangkat:</p>
+                    <ol>
+                        <li>Gunakan LLA router sebagai Default Gateway.</li>
+                        <li>Hubungi server DHCPv6 "Stateful" untuk meminta GUA dan semua info lainnya (termasuk DNS).</li>
+                    </ol>
+                    <p>(Ini adalah metode yang paling mirip dengan DHCP pada IPv4).</p>
+
+                    <h3>12.5.5-12.5.7 Proses EUI-64 vs Dihasilkan secara Acak</h3>
+                    <p>Jika menggunakan SLAAC (Metode 1 atau 2), perangkat harus membuat Interface ID 64-bit sendiri. Ada dua cara:</p>
+                    <ol>
+                        <li><strong>Proses EUI-64:</strong> Menggunakan alamat MAC 48-bit dari perangkat, menyisipkan <code>fffe</code> di tengah, dan membalik (flip) bit ke-7. Ini unik tetapi dapat menimbulkan masalah privasi.</li>
+                        <li><strong>Dihasilkan secara Acak (Randomly Generated):</strong> Sebagian besar sistem operasi modern (termasuk Windows) sekarang menghasilkan Interface ID acak untuk GUA untuk melindungi privasi.</li>
+                    </ol>
+                    <figure>
+                        <img src="https://placehold.co/600x400/374151/e5e7eb?text=Diagram+Proses+EUI-64" alt="Proses EUI-64" class="w-full h-auto rounded-md mx-auto">
+                        <figcaption>Proses EUI-64 mengubah MAC Address 48-bit menjadi Interface ID 64-bit.</figcaption>
+                    </figure>
+                </div>
+            </section>
+            
+            <!-- View: Teori 12.6 - Pengalamatan Dinamis LLA -->
+            <section id="view-teori-12-6" class="view">
+                <button onclick="showView('view-modules')" class="mb-6 bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg hover:bg-gray-600 transition-colors flex items-center">
+                    <ion-icon name="arrow-back-outline" class="mr-2"></ion-icon>
+                    Kembali ke Modul
+                </button>
+                <div class="bg-gray-800 p-6 md:p-8 rounded-lg shadow-lg theory-content">
+                    <h2 class="text-3xl font-bold mb-6 border-b border-gray-700 pb-4">12.6 Pengalamatan Dinamis untuk LLA</h2>
+                    
+                    <h3>12.6.1-12.6.3 LLA Dinamis</h3>
+                    <p>Semua perangkat IPv6 harus memiliki LLA. LLA dapat dibuat secara dinamis (menggunakan EUI-64 atau angka acak) atau dikonfigurasi secara statis.</p>
+                    <p>Router Cisco secara otomatis membuat LLA menggunakan EUI-64 segera setelah interface diaktifkan untuk IPv6 (misalnya, saat GUA dikonfigurasi).</p>
+                    <p>Sistem operasi, seperti Windows, biasanya akan menggunakan metode yang sama (misal, angka acak) untuk GUA yang dibuat SLAAC dan LLA yang ditetapkan secara dinamis.</p>
+
+                    <h3>12.6.4 Verifikasi Konfigurasi IPv6</h3>
+                    <p>Gunakan perintah <code>show ipv6 interface brief</code> untuk melihat alamat GUA dan LLA pada semua interface.</p>
+                    <pre><code>R1# show ipv6 interface brief
+GigabitEthernet0/0/0   [up/up]
+    FE80::1:1
+    2001:DB8:ACAD:1::1
+GigabitEthernet0/0/1   [up/up]
+    FE80::2:1
+    2001:DB8:ACAD:2::1</code></pre>
+                    <p>Gunakan perintah <code>show ipv6 route</code> untuk melihat tabel routing IPv6.</p>
+                    <pre><code>R1# show ipv6 route
+...
+C   2001:DB8:ACAD:1::/64 [0/0]
+     via GigabitEthernet0/0/0, directly connected
+L   2001:DB8:ACAD:1::1/128 [0/0]
+     via GigabitEthernet0/0/0, receive
+...</code></pre>
+                </div>
+            </section>
+
+            <!-- View: Teori 12.7 - Alamat Multicast -->
+            <section id="view-teori-12-7" class="view">
+                <button onclick="showView('view-modules')" class="mb-6 bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg hover:bg-gray-600 transition-colors flex items-center">
+                    <ion-icon name="arrow-back-outline" class="mr-2"></ion-icon>
+                    Kembali ke Modul
+                </button>
+                <div class="bg-gray-800 p-6 md:p-8 rounded-lg shadow-lg theory-content">
+                    <h2 class="text-3xl font-bold mb-6 border-b border-gray-700 pb-4">12.7 Alamat Multicast IPv6</h2>
+                    <p>Alamat multicast digunakan untuk mengirim satu paket ke beberapa tujuan. Alamat multicast IPv6 memiliki prefix <code>ff00::/8</code>.</p>
+                    
+                    <h3>Alamat IPv6 Multicast Well-Known</h3>
+                    <p>Ini adalah alamat yang dicadangkan untuk grup perangkat tertentu. Dua grup yang paling umum adalah:</p>
+                    <ul>
+                        <li><strong><code>ff02::1</code> (All-node multicast group):</strong> Semua perangkat IPv6-enabled bergabung dengan grup ini. Ini adalah pengganti broadcast IPv4. Pesan RA dari router dikirim ke alamat ini.</li>
+                        <li><strong><code>ff02::2</code> (All-router multicast group):</strong> Semua router IPv6 bergabung dengan grup ini. Pesan RS dari host dikirim ke alamat ini untuk "menemukan" router.</li>
+                    </ul>
+                    <figure>
+                        <img src="https://placehold.co/600x350/374151/e5e7eb?text=Diagram+Multicast+All-Nodes" alt="Multicast All-Nodes" class="w-full h-auto rounded-md mx-auto">
+                        <figcaption>Router mengirimkan RA ke <code>ff02::1</code> (semua node).</figcaption>
+                    </figure>
+
+                    <h3>Solicited-Node Alamat IPv6 Multicast</h3>
+                    <p>Ini adalah jenis alamat multicast khusus yang digunakan untuk menggantikan ARP di IPv4. Setiap perangkat membuat alamat solicited-node yang unik untuk GUA dan LLA-nya. Ketika sebuah host perlu menemukan alamat MAC untuk alamat IPv6 tertentu, ia mengirim paket ke alamat solicited-node, bukan ke semua node (broadcast).</p>
+                    <p>Keuntungannya adalah hanya perangkat target yang akan "mendengarkan" alamat multicast ini, sehingga mengurangi beban pemrosesan pada host lain di jaringan.</p>
+                    <figure>
+                        <img src="https://placehold.co/600x300/374151/e5e7eb?text=Diagram+Solicited-Node" alt="Solicited-Node" class="w-full h-auto rounded-md mx-auto">
+                        <figcaption>Hanya perangkat target yang memproses paket solicited-node multicast.</figcaption>
+                    </figure>
+                </div>
+            </section>
+
+            <!-- View: Teori 12.8 - Subnetting -->
+            <section id="view-teori-12-8" class="view">
+                <button onclick="showView('view-modules')" class="mb-6 bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg hover:bg-gray-600 transition-colors flex items-center">
+                    <ion-icon name="arrow-back-outline" class="mr-2"></ion-icon>
+                    Kembali ke Modul
+                </button>
+                <div class="bg-gray-800 p-6 md:p-8 rounded-lg shadow-lg theory-content">
+                    <h2 class="text-3xl font-bold mb-6 border-b border-gray-700 pb-4">12.8 Subnet Jaringan IPv6</h2>
+                    
+                    <h3>Subnet Menggunakan Subnet ID</h3>
+                    <p>IPv6 dirancang dengan mempertimbangkan subnetting. Kita tidak perlu "meminjam" bit dari bagian host seperti di IPv4. Kita menggunakan <strong>Subnet ID</strong> yang sudah ada di dalam struktur GUA.</p>
+                    <p>Jika ISP memberi Anda <strong>Global Routing Prefix</strong> <code>/48</code>, dan Anda menggunakan <strong>Interface ID</strong> <code>/64</code> (sesuai rekomendasi), Anda memiliki sisa 16 bit untuk <strong>Subnet ID</strong> (64 - 48 = 16).</p>
+                    <figure>
+                        <img src="https://placehold.co/600x200/374151/e5e7eb?text=GUA+dengan+Subnet+ID+16-bit" alt="GUA dengan Subnet ID" class="w-full h-auto rounded-md mx-auto">
+                        <figcaption>Dengan prefix /48, kita memiliki 16 bit untuk Subnet ID.</figcaption>
+                    </figure>
+                    <p>Subnet ID 16-bit ini memberi Anda:</p>
+                    <ul>
+                        <li><strong>65.536 subnet</strong> (2^16)</li>
+                    </ul>
+                    <p>Dan Interface ID 64-bit memberi Anda:</p>
+                    <ul>
+                        <li><strong>18 Triliun host per subnet</strong> (2^64)</li>
+                    </ul>
+                    <p>Subnetting IPv6 sangat mudah. Tidak perlu konversi biner. Cukup hitung dalam heksadesimal di dalam field Subnet ID.</p>
+
+                    <h3>Contoh Subnetting IPv6</h3>
+                    <p>Jika organisasi Anda diberi prefix <code>2001:db8:acad::/48</code>, Anda dapat membuat subnet /64 dengan menambah hextet ke-4 (Subnet ID):</p>
+                    <figure>
+                        <img src="https://placehold.co/600x400/374151/e5e7eb?text=Contoh+Daftar+Subnet" alt="Daftar Subnet IPv6" class="w-full h-auto rounded-md mx-auto">
+                        <figcaption>Membuat subnet dengan menambah Subnet ID (hextet ke-4).</figcaption>
+                    </figure>
+                    <ul>
+                        <li>Subnet 1: <code>2001:db8:acad:<strong>0000</strong>::/64</code> (atau <code>...:0::/64</code>)</li>
+                        <li>Subnet 2: <code>2001:db8:acad:<strong>0001</strong>::/64</code> (atau <code>...:1::/64</code>)</li>
+                        <li>Subnet 3: <code>2001:db8:acad:<strong>0002</strong>::/64</code> (atau <code>...:2::/64</code>)</li>
+                        <li>...</li>
+                        <li>Subnet 10: <code>2001:db8:acad:<strong>0009</strong>::/64</code> (atau <code>...:9::/64</code>)</li>
+                        <li>Subnet 11: <code>2001:db8:acad:<strong>000a</strong>::/64</code> (atau <code>...:a::/64</code>)</li>
+                        <li>Subnet 12: <code>2001:db8:acad:<strong>000b</strong>::/64</code> (atau <code>...:b::/64</code>)</li>
+                        <li>...</li>
+                        <li>Subnet Terakhir: <code>2001:db8:acad:<strong>ffff</strong>::/64</code></li>
+                    </ul>
+
+                    <h3>Alokasi Subnet IPv6</h3>
+                    <p>Tugas administrator adalah merancang skema alokasi yang logis. Tidak perlu khawatir tentang pemborosan alamat. Bahkan link serial point-to-point antara router tetap menggunakan <code>/64</code>.</p>
+                    <figure>
+                        <img src="https://placehold.co/600x350/374151/e5e7eb?text=Topologi+Alokasi+Subnet" alt="Topologi Alokasi Subnet" class="w-full h-auto rounded-md mx-auto">
+                        <figcaption>Mengalokasikan subnet yang berbeda untuk setiap link (LAN atau WAN).</figcaption>
+                    </figure>
+                </div>
+            </section>
+
+            <!-- ====================================================== -->
+            <!-- ==             AKHIR DARI HALAMAN TEORI BARU        == -->
+            <!-- ====================================================== -->
+
+
+        </main>
+    </div>
+
+    <!-- Modal untuk Konfigurasi PC1 -->
+    <div id="pc1Modal" class="view fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4">
+        <div class="bg-gray-800 rounded-lg shadow-2xl w-full max-w-2xl overflow-hidden">
+            <!-- Header Modal -->
+            <div class="flex justify-between items-center p-5 bg-gray-700">
+                <h3 class="text-xl font-semibold flex items-center">
+                    <ion-icon name="desktop-outline" class="mr-2"></ion-icon>
+                    Konfigurasi PC-1
+                </h3>
+                <button onclick="closeModal('pc1Modal')" class="text-gray-400 hover:text-white">
+                    <ion-icon name="close-outline" class="text-2xl"></ion-icon>
+                </button>
+            </div>
+
+            <!-- Konten Modal (Tab) -->
+            <div class="p-6">
+                <!-- Navigasi Tab -->
+                <div class="border-b border-gray-700 mb-6">
+                    <nav class="flex space-x-4">
+                        <button onclick="showTab('configTab')" class="tab-link px-1 py-3 border-b-2 border-blue-500 text-blue-400 font-medium">
+                            Konfigurasi IP
+                        </button>
+                        <button onclick="showTab('terminalTab')" class="tab-link px-1 py-3 border-b-2 border-transparent text-gray-400 hover:text-gray-200">
+                            Terminal
+                        </button>
+                    </nav>
+                </div>
+
+                <!-- Tab 1: Konfigurasi -->
+                <div id="configTab" class="tab-content">
+                    <div class="space-y-4">
+                        <div>
+                            <label for="pc1Gua" class="block text-sm font-medium text-gray-300">IPv6 GUA</label>
+                            <input type="text" id="pc1Gua" class="mt-1 w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white font-mono" value="2001:db8:acad:1::10">
+                        </div>
+                        <div>
+                            <label for="pc1Prefix" class="block text-sm font-medium text-gray-300">Prefix Length</label>
+                            <input type="number" id="pc1Prefix" class="mt-1 w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white font-mono" value="64">
+                        </div>
+                        <div>
+                            <label for="pc1Gateway" class="block text-sm font-medium text-gray-300">Default Gateway (LLA)</label>
+                            <input type="text" id="pc1Gateway" class="mt-1 w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white font-mono" value="fe80::1">
+                        </div>
+                        <button id="saveConfigBtn" class="w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+                            Simpan Konfigurasi
+                        </button>
+                        <div id="configFeedback" class="mt-2 text-center text-green-400 text-sm"></div>
+                    </div>
+                </div>
+
+                <!-- Tab 2: Terminal -->
+                <div id="terminalTab" class="tab-content" style="display: none;">
+                    <div class="bg-black p-4 rounded-lg h-64 flex flex-col">
+                        <div id="terminalOutput" class="terminal-output flex-1 text-sm font-mono text-green-400 overflow-y-auto mb-2">
+                            PC-1 Terminal. Ketik 'help' untuk daftar perintah.<br>
+                        </div>
+                        <div class="flex">
+                            <span class="font-mono text-gray-400 mr-2">PC-1></span>
+                            <input type="text" id="terminalInput" class="flex-1 bg-transparent text-white font-mono focus:outline-none" placeholder="Ketik perintah...">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- JavaScript Aplikasi -->
+    <script>
+        // === STATE APLIKASI ===
+        // Profil pengguna sekarang dimuat dari localStorage, atau default ke "Siswa TKJ"
+        const userProfile = {
+            name: localStorage.getItem('ipv6_username') || "Siswa TKJ",
+            score: parseInt(localStorage.getItem('ipv6_userscore')) || 0
+        };
+        
+        // === STATE GAME & LAB (Variabel yang Hilang) ===
+        
+        // --- [PERUBAHAN 1] ---
+        // Soal untuk Game Kompresi
+        // 'correct' sekarang adalah array untuk menerima beberapa jawaban yang valid.
+        const compressionProblems = [
+            // Soal 1: Loopback
+            { full: "0000:0000:0000:0000:0000:0000:0000:0001", correct: ["::1", "0:0:0:0:0:0:0:1"] },
+            // Soal 2: :: di akhir
+            { full: "2001:0db8:aaaa:0001:0000:0000:0000:0000", correct: ["2001:db8:aaaa:1::", "2001:db8:aaaa:1:0:0:0:0"] },
+            // Soal 3: :: di awal
+            { full: "fe80:0000:0000:0000:0123:4567:89ab:cdef", correct: ["fe80::123:4567:89ab:cdef", "fe80:0:0:0:123:4567:89ab:cdef"] },
+            // Soal 4: Tidak ada '::' yang mungkin, hanya leading zeros
+            { full: "2001:0db8:00a0:0001:0010:0abc:0300:1234", correct: ["2001:db8:a0:1:10:abc:300:1234"] },
+            // Soal 5: Pilihan '::' (tie), 2 blok 0000 yang sama panjang
+            { full: "2001:0000:0000:abcd:ef01:0000:0000:1234", correct: ["2001::abcd:ef01:0:0:1234", "2001:0:0:abcd:ef01::1234", "2001:0:0:abcd:ef01:0:0:1234"] },
+            // Soal 6: Pilih blok '::' terpanjang
+            { full: "ff02:0000:0000:0000:0000:0001:0000:000a", correct: ["ff02::1:0:a", "ff02:0:0:0:0:1:0:a"] },
+            // Soal 7: Hanya satu blok 0000 (menjadi '0')
+            { full: "2001:db8:acad:0000:1234:5678:9abc:def0", correct: ["2001:db8:acad:0:1234:5678:9abc:def0"] }
+        ];
+        // --- [AKHIR PERUBAHAN 1] ---
+        
+        let currentProblemIndex = 0;
+        let gameScore = 0;
+
+        // State untuk Virtual Lab
+        let pc1Configured = false;
+        let pc1Config = { 
+            gua: '', 
+            prefix: 0, 
+            gateway: '' 
+        };
+        const r1Config = { 
+            lla: 'fe80::1' // Alamat LLA Gateway (R1)
+        };
+        
+        // === DOM ELEMENTS ===
+        // Deklarasikan variabel di sini (scope lebih tinggi)
+        let views;
+        let fullAddressEl, compressedInputEl, checkCompressionBtn, nextCompressionBtn, compressionFeedbackEl, gameScoreEl;
+        let basePrefixInput, subnetBitsSlider, subnetBitsValue, subnetCountEl, finalPrefixDisplayEl, firstSubnetEl, lastSubnetEl;
+        let pc1Device, pc1Modal, pc1Status, configFeedback, terminalInput, terminalOutput;
+        let userScoreDisplay;
+        // Variabel untuk edit nama
+        let userNameEl, editNameBtn, userNameInput;
+
+        // === FUNGSI NAVIGASI ===
+        
+        /**
+         * Menampilkan view (halaman) yang dipilih dan menyembunyikan yang lain.
+         * Juga menangani status aktif pada link navigasi.
+         */
+        function showView(viewId) {
+            // Sembunyikan semua view
+            views.forEach(view => {
+                // if (view.id.startsWith('view-')) { // <-- GARI INI DIHAPUS (INI ADALAH BUG)
+                    view.classList.remove('active');
+                // } // <-- BARIS INI DIHAPUS
+            });
+            // Tampilkan view yang dipilih
+            const activeView = document.getElementById(viewId);
+            if (activeView) {
+                activeView.classList.add('active');
+            }
+
+            // Atur link aktif di sidebar
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('bg-blue-700', 'text-white');
+                link.classList.add('text-gray-300');
+                if (link.getAttribute('onclick') === `showView('${viewId}')`) {
+                    link.classList.add('bg-blue-700', 'text-white');
+                    link.classList.remove('text-gray-300');
+                }
+            });
+            
+            // --- [PERUBAHAN 1] ---
+            // Simpan viewId ke localStorage setiap kali view diganti
+            localStorage.setItem('ipv6_lastView', viewId);
+            // --- [AKHIR PERUBAHAN 1] ---
+        }
+
+        /**
+         * Menampilkan tab di dalam modal (misal: modal PC1)
+         */
+        function showTab(tabId) {
+            // Sembunyikan semua tab content
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.style.display = 'none';
+            });
+            // Tampilkan tab yang dipilih
+            document.getElementById(tabId).style.display = 'block';
+
+            // Atur style link tab
+            document.querySelectorAll('.tab-link').forEach(link => {
+                link.classList.remove('border-blue-500', 'text-blue-400');
+                link.classList.add('border-transparent', 'text-gray-400');
+                if (link.getAttribute('onclick') === `showTab('${tabId}')`) {
+                    link.classList.add('border-blue-500', 'text-blue-400');
+                    link.classList.remove('border-transparent', 'text-gray-400');
+                }
+            });
+        }
+        
+        /**
+         * Menutup modal
+         */
+        /**
+ * Menutup modal – bekerja untuk semua modal yang menggunakan kelas .view + .active
+ */
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('active');
+            // Pastikan tidak ada inline style yang mengganggu
+            // modal.style.display = 'none'; // <-- DIHAPUS: Ini adalah penyebab bug
+            }
+        }
+        
+        // === FUNGSI LOGIKA: GAME KOMPRESI ===
+
+        /**
+         * Memulai game kompresi dan memuat soal pertama.
+         */
+        function initCompressionGame() {
+            // Acak urutan soal saat pertama kali memuat
+            compressionProblems.sort(() => Math.random() - 0.5);
+            currentProblemIndex = 0;
+            gameScore = 0;
+            gameScoreEl.innerText = gameScore;
+            loadCompressionProblem();
+        }
+
+        /**
+         * Memuat soal kompresi baru.
+         */
+        function loadCompressionProblem() {
+            if (currentProblemIndex >= compressionProblems.length) {
+                currentProblemIndex = 0; // Ulangi dari awal jika soal habis
+                // Acak lagi untuk putaran berikutnya
+                compressionProblems.sort(() => Math.random() - 0.5);
+            }
+            
+            fullAddressEl.innerText = compressionProblems[currentProblemIndex].full;
+            compressedInputEl.value = "";
+            compressionFeedbackEl.style.display = 'none';
+            checkCompressionBtn.style.display = 'block';
+            nextCompressionBtn.style.display = 'none';
+            compressedInputEl.disabled = false;
+        }
+
+        /**
+         * Memeriksa jawaban game kompresi.
+         */
+        // --- [PERUBAHAN 2] ---
+        // Memperbarui logika pengecekan untuk menangani array
+        function checkCompressionAnswer() {
+            const userAnswer = compressedInputEl.value.trim().toLowerCase();
+            // 'correctAnswer' sekarang adalah array
+            const correctAnswers = compressionProblems[currentProblemIndex].correct.map(c => c.toLowerCase());
+
+            // Periksa apakah jawaban pengguna ada di dalam array jawaban benar
+            if (correctAnswers.includes(userAnswer)) {
+                compressionFeedbackEl.innerText = "BENAR! +100 Poin";
+                compressionFeedbackEl.className = "mt-4 p-4 rounded-lg text-center font-medium bg-green-800 text-green-200";
+                gameScore += 100;
+                updateUserScore(100); // Update skor global
+                checkCompressionBtn.style.display = 'none';
+                nextCompressionBtn.style.display = 'block';
+            } else {
+                // Tampilkan jawaban pertama (biasanya yang paling optimal) sebagai contoh
+                compressionFeedbackEl.innerText = `SALAH. Jawaban yang benar: ${compressionProblems[currentProblemIndex].correct[0]}`;
+                compressionFeedbackEl.className = "mt-4 p-4 rounded-lg text-center font-medium bg-red-800 text-red-200";
+                checkCompressionBtn.style.display = 'none';
+                nextCompressionBtn.style.display = 'block';
+            }
+            compressionFeedbackEl.style.display = 'block';
+            gameScoreEl.innerText = gameScore;
+            compressedInputEl.disabled = true;
+        }
+        // --- [AKHIR PERUBAHAN 2] ---
+        
+        // === FUNGSI LOGIKA: VISUAL SUBNETTER ===
+
+        /**
+         * Memulai logika subnetter.
+         */
+        function initSubnetter() {
+            updateSubnetter(); // Panggil sekali saat inisialisasi
+        }
+        
+        /**
+         * Mengupdate tampilan subnetter berdasarkan input slider.
+         */
+        function updateSubnetter() {
+            const basePrefix = basePrefixInput.value.trim() || "2001:db8:acad";
+            const bits = parseInt(subnetBitsSlider.value);
+            
+            const subnetCount = Math.pow(2, bits);
+            const finalPrefix = 48 + (16 - bits); // Asumsi /48 + 16 bit field. Slider ini menentukan berapa bit untuk host dalam hextet itu.
+            // Mari kita ubah logikanya agar lebih sesuai dengan Modul 12.8
+            // /48 (Global Prefix) + 16 bits (Subnet ID) = /64 (Final Prefix)
+            // Slider harusnya menentukan berapa banyak bit dari 16 bit tsb yang kita 'gunakan'
+            
+            const subnetIdBits = bits;
+            const finalSubnetPrefix = 48 + subnetIdBits;
+            const calculatedSubnetCount = Math.pow(2, subnetIdBits);
+
+            subnetBitsValue.innerText = subnetIdBits;
+            subnetCountEl.innerText = calculatedSubnetCount.toLocaleString('id-ID');
+            finalPrefixDisplayEl.innerText = `/${finalSubnetPrefix}`;
+            
+            // Hitung subnet terakhir
+            // Ini menjadi rumit jika bit < 4. Mari kita sederhakan untuk contoh KTI.
+            // Kita asumsikan slider adalah 16-bit field (0-16).
+            // Jika 16 bits, ada 2^16 = 65536 subnet. Prefix /64.
+            // Jika 8 bits, ada 2^8 = 256 subnet. Prefix /56.
+            
+            subnetCountEl.innerText = calculatedSubnetCount.toLocaleString('id-ID');
+            finalPrefixDisplayEl.innerText = `/${finalSubnetPrefix}`;
+            
+            let lastSubnetHex = (calculatedSubnetCount - 1).toString(16);
+            // Padding hextet
+            let hextet = "0000";
+            if (subnetIdBits <= 4) hextet = lastSubnetHex.padStart(1, '0');
+            else if (subnetIdBits <= 8) hextet = lastSubnetHex.padStart(2, '0');
+            else if (subnetIdBits <= 12) hextet = lastSubnetHex.padStart(3, '0');
+            else hextet = lastSubnetHex.padStart(4, '0');
+            
+            // Jika bits=16, hextet = ffff. Jika bits=8, hextet=ff.
+            // Logika KTI mengasumsikan field 16-bit penuh (slider 1-16)
+            
+            const hextetBits = 16;
+            const finalPrefixForSubnet = 48 + hextetBits; // Selalu /64
+            const subnetCountFromSlider = Math.pow(2, bits); // bits = 1 s/d 16
+            const lastSubnetHexValue = (subnetCountFromSlider - 1).toString(16).padStart(4, '0');
+
+            subnetBitsValue.innerText = `${bits} bits`;
+            subnetCountEl.innerText = subnetCountFromSlider.toLocaleString('id-ID');
+            finalPrefixDisplayEl.innerText = `/${finalPrefixForSubnet}`; // Selalu /64
+            
+            firstSubnetEl.innerText = `${basePrefix}:0000::/${finalPrefixForSubnet}`;
+            lastSubnetEl.innerText = `${basePrefix}:${lastSubnetHexValue}::/${finalPrefixForSubnet}`;
+        }
+        
+        
+        // === FUNGSI LOGIKA: VIRTUAL LAB ===
+
+        /**
+         * Memulai Virtual Lab.
+         */
+        function initLab() {
+            // Event listener untuk tombol Simpan Konfigurasi
+            document.getElementById('saveConfigBtn').addEventListener('click', () => {
+                pc1Config.gua = document.getElementById('pc1Gua').value;
+                pc1Config.prefix = parseInt(document.getElementById('pc1Prefix').value);
+                pc1Config.gateway = document.getElementById('pc1Gateway').value;
+                pc1Configured = true;
+                
+                pc1Status.innerText = "Terkonfigurasi";
+                pc1Status.className = "text-sm text-green-400";
+                
+                configFeedback.innerText = "Konfigurasi disimpan!";
+                setTimeout(() => { configFeedback.innerText = "" }, 2000);
+            });
+
+            // Event listener untuk input terminal
+            terminalInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    handleTerminalCommand(terminalInput.value.trim());
+                    terminalInput.value = "";
+                }
+            });
+        }
+        
+        /**
+         * Menangani perintah yang diketik di terminal virtual.
+         */
+        function handleTerminalCommand(cmd) {
+            terminalOutput.innerHTML += `<span class="text-gray-400">PC-1></span> ${cmd}<br>`;
+            
+            if (cmd.toLowerCase() === 'help') {
+                terminalOutput.innerHTML += `Perintah yang tersedia:<br>`;
+                terminalOutput.innerHTML += `  ipconfig   - Tampilkan konfigurasi IP<br>`;
+                terminalOutput.innerHTML += `  ping [addr]  - Kirim ICMP echo request<br>`;
+                terminalOutput.innerHTML += `  clear      - Bersihkan layar<br>`;
+            } 
+            else if (cmd.toLowerCase() === 'ipconfig') {
+                if (pc1Configured) {
+                    terminalOutput.innerHTML += `Konfigurasi IP PC-1:<br>`;
+                    terminalOutput.innerHTML += `  IPv6 GUA: ${pc1Config.gua}/${pc1Config.prefix}<br>`;
+                    terminalOutput.innerHTML += `  Default Gateway: ${pc1Config.gateway}<br>`;
+                } else {
+                    terminalOutput.innerHTML += `Konfigurasi IP belum diatur.<br>`;
+                }
+            }
+            else if (cmd.toLowerCase().startsWith('ping ')) {
+                const target = cmd.split(' ')[1];
+                if (!pc1Configured) {
+                    terminalOutput.innerHTML += `Tidak bisa ping, IP belum dikonfigurasi.<br>`;
+                    return;
+                }
+                
+                if (target === r1Config.lla && pc1Config.gateway === r1Config.lla) {
+                    // Misi berhasil!
+                    terminalOutput.innerHTML += `Pinging ${target}...<br>`;
+                    terminalOutput.innerHTML += `Reply from ${target}: bytes=32 time<1ms TTL=64<br>`;
+                    terminalOutput.innerHTML += `Reply from ${target}: bytes=32 time<1ms TTL=64<br>`;
+                    terminalOutput.innerHTML += `<span class="text-yellow-300">MISI BERHASIL! (+500 Poin)</span><br>`;
+                    updateUserScore(500);
+                } else if (target === r1Config.lla) {
+                    terminalOutput.innerHTML += `Pinging ${target}...<br>`;
+                    terminalOutput.innerHTML += `Destination host unreachable. (Gateway tidak sesuai?)<br>`;
+                } else {
+                    terminalOutput.innerHTML += `Pinging ${target}...<br>`;
+                    terminalOutput.innerHTML += `Request timed out.<br>`;
+                }
+            }
+            else if (cmd.toLowerCase() === 'clear') {
+                terminalOutput.innerHTML = "";
+            }
+            else if (cmd === "") {
+                // Do nothing
+            }
+            else {
+                terminalOutput.innerHTML += `'${cmd}' bukan perintah yang dikenal.<br>`;
+            }
+            // Auto-scroll ke bawah
+            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+        }
+
+        // === FUNGSI LOGIKA: PAPAN PERINGKAT & SKOR ===
+
+        /**
+         * Mengupdate skor global pengguna, menyegarkan tampilan, dan menyimpan ke localStorage.
+         */
+        function updateUserScore(pointsToAdd) {
+            userProfile.score += pointsToAdd;
+            userScoreDisplay.innerText = userProfile.score.toLocaleString('id-ID');
+            localStorage.setItem('ipv6_userscore', userProfile.score); // Simpan skor
+        }
+
+
+        // === INISIALISASI APLIKASI ===
+        // BLOK INI TELAH DIHAPUS KARENA MENGANDUNG SYNTAX ERROR DAN DUPLIKAT
+        
+        // === INISIALISASI APLIKASI ===
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            document.addEventListener('click', (e) => {
+            const modal = document.getElementById('pc1Modal');
+            if (modal && modal.classList.contains('active') && 
+                !modal.querySelector('.bg-gray-800').contains(e.target) && 
+                e.target !== pc1Device) {
+                closeModal('pc1Modal');
+            }
+            }); 
+
+
+            // === ISI VARIABEL DOM SETELAH HALAMAN LOAD ===
+            views = document.querySelectorAll('.view');
+            // Game Kompresi
+            fullAddressEl = document.getElementById('fullAddress');
+            compressedInputEl = document.getElementById('compressedInput');
+            checkCompressionBtn = document.getElementById('checkCompressionBtn');
+            nextCompressionBtn = document.getElementById('nextCompressionBtn');
+            compressionFeedbackEl = document.getElementById('compressionFeedback');
+            gameScoreEl = document.getElementById('gameScore');
+            // Subnetter
+            basePrefixInput = document.getElementById('basePrefixInput');
+            subnetBitsSlider = document.getElementById('subnetBitsSlider');
+            subnetBitsValue = document.getElementById('subnetBitsValue');
+            subnetCountEl = document.getElementById('subnetCount');
+            finalPrefixDisplayEl = document.getElementById('finalPrefixDisplay');
+            firstSubnetEl = document.getElementById('firstSubnet');
+            lastSubnetEl = document.getElementById('lastSubnet');
+            // Lab
+            pc1Device = document.getElementById('pc1Device');
+            pc1Modal = document.getElementById('pc1Modal');
+            pc1Status = document.getElementById('pc1Status');
+            configFeedback = document.getElementById('configFeedback');
+            terminalInput = document.getElementById('terminalInput');
+            terminalOutput = document.getElementById('terminalOutput');
+            // Papan Peringkat & Profil
+            userScoreDisplay = document.getElementById('userScoreDisplay');
+            userNameEl = document.getElementById('userNameEl');
+            editNameBtn = document.getElementById('editNameBtn');
+            userNameInput = document.getElementById('userNameInput');
+            
+            // === ATUR TAMPILAN AWAL & EVENT LISTENERS ===
+
+            // --- [PERUBAHAN 2] ---
+            // Atur tampilan awal berdasarkan localStorage
+            const lastViewId = localStorage.getItem('ipv6_lastView');
+            // Validasi lastViewId sebelum digunakan, pastikan elemennya ada
+            if (lastViewId && document.getElementById(lastViewId)) {
+                showView(lastViewId);
+            } else {
+                showView('view-dashboard'); // Default ke dashboard
+            }
+            // --- [AKHIR PERUBAHAN 2] ---
+            
+            userNameEl.innerText = userProfile.name; // Tampilkan nama dari profile
+            userScoreDisplay.innerText = userProfile.score.toLocaleString('id-ID'); // Tampilkan skor dari profile
+            
+            // Inisialisasi Game Kompresi
+            initCompressionGame();
+            checkCompressionBtn.addEventListener('click', checkCompressionAnswer);
+            nextCompressionBtn.addEventListener('click', () => {
+                currentProblemIndex++;
+                loadCompressionProblem();
+            });
+
+            // Inisialisasi Subnetter
+            subnetBitsSlider.addEventListener('input', updateSubnetter);
+            initSubnetter();
+            
+            // Inisialisasi Lab
+            pc1Device.addEventListener('click', () => {
+                showTab('configTab'); // Selalu buka tab config dulu
+                pc1Modal.classList.add('active');
+            });
+            initLab();
+
+            
+            // --- Event Listener untuk Edit Nama ---
+            editNameBtn.addEventListener('click', () => {
+                // Sembunyikan teks nama dan tombol edit
+                userNameEl.style.display = 'none';
+                editNameBtn.style.display = 'none';
+                // Tampilkan input field
+                userNameInput.style.display = 'block';
+                userNameInput.value = userProfile.name; // Isi dengan nama saat ini
+                userNameInput.focus();
+            });
+
+            // Saat menekan Enter di input nama
+            userNameInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === 'Escape') {
+                    const newName = userNameInput.value.trim();
+                    
+                    if (e.key === 'Enter' && newName && newName !== userProfile.name) {
+                        const oldName = userProfile.name;
+                        userProfile.name = newName; // Update state
+                         userNameEl.innerText = newName; // Update UI
+                         localStorage.setItem('ipv6_username', newName); // Simpan ke localStorage
+                     }
+                    
+                    // Sembunyikan input, tampilkan lagi teks nama dan tombol edit
+                    userNameInput.style.display = 'none';
+                    userNameEl.style.display = 'block';
+                    editNameBtn.style.display = 'block';
+                }
+            });
+            
+        });
+
+    </script>
+</body>
+</html>
